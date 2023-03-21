@@ -7,30 +7,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/movie_image_cinema"
-    tools:context=".MainActivity5">
+    tools:context=".MainActivity5_signing">
 
     <Button
         android:id="@+id/signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="7dp"
         android:layout_marginTop="266dp"
-        android:background=""
+        android:background="#00FFFFFF"
         android:fontFamily="@font/bangers"
         android:text="sign in"
         android:textColor="#d48a0d"
-        android:textSize="35sp" />
+        android:textSize="35dp" />
 
     <Button
         android:id="@+id/signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="#00FFFFFF"
         android:layout_marginLeft="8dp"
         android:fontFamily="@font/bangers"
         android:text="sign up"
-        android:background=""
         android:textColor="#d48a0d"
         android:textSize="35sp" />
 </LinearLayout>

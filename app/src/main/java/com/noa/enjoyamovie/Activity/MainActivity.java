@@ -2,29 +2,26 @@ package com.noa.enjoyamovie.Activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.noa.enjoyamovie.MainActivity4;
-import com.noa.enjoyamovie.MainActivity5;
-import com.noa.enjoyamovie.MainActivity6;
-import com.noa.enjoyamovie.MainActivity7;
+import com.noa.enjoyamovie.IncomingCall_Reciver;
+import com.noa.enjoyamovie.MainActivity5_signing;
+import com.noa.enjoyamovie.MainActivity6_aboutproject;
+import com.noa.enjoyamovie.MainActivity7_aboutcreator;
 import com.noa.enjoyamovie.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +33,14 @@ LinearLayout title1;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        IncomingCall_Reciver myReceiver;
+        IntentFilter filter;
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},1);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_SMS},1);
+        myReceiver=new IncomingCall_Reciver();
+        filter=new IntentFilter("android.intent.action.PHONE_STATE");
+        registerReceiver(myReceiver,filter);
         title1 = (LinearLayout) findViewById(R.id.title1);
         title = (TextView) findViewById(R.id.title);
         gotoactivity4 = (Button) findViewById(R.id.gotoactivity4);
@@ -79,12 +84,12 @@ LinearLayout title1;
                 return true;
             case R.id.item2:
                 finish();
-                Intent intent = new Intent(this, MainActivity7.class);
+                Intent intent = new Intent(this, MainActivity7_aboutcreator.class);
                 startActivity(intent);
                 return true;
             case R.id.item3:
                 finish();
-                intent = new Intent(this, MainActivity6.class);
+                intent = new Intent(this, MainActivity6_aboutproject.class);
                 startActivity(intent);
                 return true;
         }
@@ -95,7 +100,7 @@ LinearLayout title1;
 
     public void Click1(View v) {
         finish();
-        Intent intent = new Intent(this, MainActivity5.class);
+        Intent intent = new Intent(this, MainActivity5_signing.class);
         startActivity(intent);
 
     }

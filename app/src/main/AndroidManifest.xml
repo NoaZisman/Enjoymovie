@@ -2,6 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.noa.enjoyamovie">
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,26 +20,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EnjoyAMovie">
+        <receiver
+            android:name=".IncomingCall_Reciver"
+            android:enabled="true"
+            android:exported="true"></receiver>
         <activity
-            android:name=".MainActivity8"
+            android:name=".MainActivity14_leaderboard"
             android:exported="true" />
         <activity
-            android:name=".MainActivity7"
+            android:name=".MainActivity12_sign_in"
             android:exported="true" />
         <activity
-            android:name=".MainActivity6"
+            android:name=".MainActivity11_sumorder"
             android:exported="true" />
         <activity
-            android:name=".MainActivity5"
+            android:name=".MainActivity10_paymentapproval"
             android:exported="true" />
         <activity
-            android:name=".MainActivity4"
+            android:name=".MainActivity9_paymentdetails"
             android:exported="true" />
         <activity
-            android:name=".Activity.MainActivity3"
+            android:name=".MainActivity8_ticketselection"
             android:exported="true" />
         <activity
-            android:name=".Activity.MainActivity2"
+            android:name=".MainActivity7_aboutcreator"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity6_aboutproject"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity5_signing"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity4_movies"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.MainActivity3_moviedetails"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.MainActivity2_seatselection"
             android:exported="true" />
         <activity
             android:name=".Activity.MainActivity"

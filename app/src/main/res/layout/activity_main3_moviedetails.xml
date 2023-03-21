@@ -7,13 +7,5 @@
     android:layout_height="match_parent"
     android:id="@+id/title1"
     android:orientation="vertical"
-    tools:context=".MainActivity4"
-    android:background="@color/black">
-
-    <ListView
-        android:id="@+id/listViewtwo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-
-</LinearLayout>
+    tools:context=".MainActivity4_movies"
+    android:background="@color/black"/>

@@ -1,6 +1,7 @@
 package com.noa.enjoyamovie.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class MyAdapter extends BaseAdapter {
         imdb1.setText(movieList.get(i).getImdb());
         type1.setText(movieList.get(i).getType());
         time1.setText(movieList.get(i).getTime());
+
         return view;
     }
 
