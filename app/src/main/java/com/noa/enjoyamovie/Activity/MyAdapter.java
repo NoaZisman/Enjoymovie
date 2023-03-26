@@ -47,7 +47,6 @@ public class MyAdapter extends BaseAdapter {
         ImageView image1= view.findViewById(R.id.imageview);
         TextView imdb1 = view.findViewById(R.id.MovieImdb);
         TextView type1 = view.findViewById(R.id.MovieShowType);
-        TextView price1 = view.findViewById(R.id.MoviePrice);
         TextView time1 = view.findViewById(R.id.MovieLength);
         name1.setText(movieList.get(i).getName());
         image1.setImageResource(movieList.get(i).getImage());

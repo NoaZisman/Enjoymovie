@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -23,6 +24,10 @@ TextView ticketsSelection;
     TextView hallandseatingorder;
     TextView totalpaymentorder;
     Button tosum;
+    Button play;
+    Button stop;
+    TextView playtv;
+    TextView stoptv;
     AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,10 @@ TextView ticketsSelection;
         builder=new AlertDialog.Builder(this);
         title = (TextView) findViewById(R.id.title);
         ticketsSelection = (TextView) findViewById(R.id.ticketsSelection);
+        playtv = (TextView) findViewById(R.id.playtv);
+        stoptv = (TextView) findViewById(R.id.stoptv);
+        play = (Button) findViewById(R.id.play);
+        stop = (Button) findViewById(R.id.stop);
         paymentDetails = (TextView) findViewById(R.id.paymentDetails);
         approval = (TextView) findViewById(R.id.approval);
         sum = (TextView) findViewById(R.id.sum);
@@ -48,12 +57,53 @@ TextView ticketsSelection;
         totalpaymentorder = (TextView) findViewById(R.id.totalpaymentorder);
         tosum = (Button) findViewById(R.id.tosum);
         tosum.setOnClickListener(this::Click1);
+        play.setOnClickListener(this::Click3);
+        stop.setOnClickListener(this::Click4);
     }
 
     public void Click1(View v) {
-        finish();
-        Intent intent = new Intent(this, MainActivity11_sumorder.class);
-        startActivity(intent);
+        builder.setTitle("Alert").setMessage("Do you want to order").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int i)
+            {
+                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity11_sumorder.class);
+                startActivity(intent);
+            }
+        })
+                .setNegativeButton("no", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
 
+    public void Click3(View v) {
+        builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int i)
+            {
+                Intent music=new Intent(getApplicationContext(),MyService.class);
+                startService(music);
+            }
+        })
+                .setNegativeButton("no", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+    public void Click4(View v) {
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
     }
 }

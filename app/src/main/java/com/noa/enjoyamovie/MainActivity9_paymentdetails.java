@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -48,6 +49,10 @@ TextView ticketsSelection;
     EditText threedigitsbuyed;
     Button back;
     Button toapproval;
+    Button play;
+    Button stop;
+    TextView playtv;
+    TextView stoptv;
     AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +98,15 @@ TextView ticketsSelection;
         cardnumberbuyed = (EditText) findViewById(R.id.cardnumberbuyed);
         wayofpaymentbuyed = (EditText) findViewById(R.id.wayofpaymentbuyed);
         toapproval = (Button) findViewById(R.id.toapproval);
+        playtv = (TextView) findViewById(R.id.playtv);
+        stoptv = (TextView) findViewById(R.id.stoptv);
+        play = (Button) findViewById(R.id.play);
+        stop = (Button) findViewById(R.id.stop);
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this::Click1);
         toapproval.setOnClickListener(this::Click2);
+        play.setOnClickListener(this::Click3);
+        stop.setOnClickListener(this::Click4);
     }
     public void Click1(View v) {
         finish();
@@ -108,5 +119,31 @@ TextView ticketsSelection;
         Intent intent = new Intent(this, MainActivity9_paymentdetails.class);
         startActivity(intent);
 
+    }
+
+
+    public void Click3(View v) {
+        builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int i)
+            {
+                Intent music=new Intent(getApplicationContext(),MyService.class);
+                startService(music);
+            }
+        })
+                .setNegativeButton("no", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+    public void Click4(View v) {
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
     }
 }

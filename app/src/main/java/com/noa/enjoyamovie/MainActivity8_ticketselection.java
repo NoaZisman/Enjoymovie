@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -33,6 +34,13 @@ public class MainActivity8_ticketselection extends AppCompatActivity {
     TextView amount;
     Button todetails;
     Button back;
+    Button play;
+    Button stop;
+    TextView playtv;
+    TextView stoptv;
+    Intent intentg;
+    int i;
+    //לקבל גם את השעה מבין 3 שעות אפשריות, מספר האולם, מספר הכיסאות, מספר שורת ישיבה
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +54,8 @@ public class MainActivity8_ticketselection extends AppCompatActivity {
         filter=new IntentFilter("android.intent.action.PHONE_STATE");
         registerReceiver(myReceiver,filter);
         builder=new AlertDialog.Builder(this);
+        intentg=getIntent();
+        i= intentg.getIntExtra("id",0);
         title = (TextView) findViewById(R.id.title);
         ticketsSelection = (TextView) findViewById(R.id.ticketsSelection);
         paymentDetails = (TextView) findViewById(R.id.paymentDetails);
@@ -61,14 +71,18 @@ public class MainActivity8_ticketselection extends AppCompatActivity {
         amount = (TextView) findViewById(R.id.amount);
         todetails = (Button) findViewById(R.id.todetails);
         back = (Button) findViewById(R.id.back);
+        playtv = (TextView) findViewById(R.id.playtv);
+        stoptv = (TextView) findViewById(R.id.stoptv);
+        play = (Button) findViewById(R.id.play);
+        stop = (Button) findViewById(R.id.stop);
         back.setOnClickListener(this::Click1);
         todetails.setOnClickListener(this::Click2);
+        play.setOnClickListener(this::Click3);
+        stop.setOnClickListener(this::Click4);
     }
 
     public void Click1(View v) {
         finish();
-        Intent intent = new Intent(this, MainActivity2_seatselection.class);
-        startActivity(intent);
 
     }
     public void Click2(View v) {
@@ -76,5 +90,30 @@ public class MainActivity8_ticketselection extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity9_paymentdetails.class);
         startActivity(intent);
 
+    }
+
+    public void Click3(View v) {
+        builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int i)
+            {
+                Intent music=new Intent(getApplicationContext(),MyService.class);
+                startService(music);
+            }
+        })
+                .setNegativeButton("no", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+    public void Click4(View v) {
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
     }
 }

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -22,6 +23,7 @@ import com.noa.enjoyamovie.Activity.MyAdapter;
 import com.noa.enjoyamovie.Movie.MovieXML;
 
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -39,6 +41,10 @@ public class MainActivity4_movies extends AppCompatActivity {
     List<MovieXML> movieList;
     MyAdapter myAdapter;
     AlertDialog.Builder builder;
+    Button play;
+    Button stop;
+    TextView playtv;
+    TextView stoptv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +59,14 @@ public class MainActivity4_movies extends AppCompatActivity {
         registerReceiver(myReceiver,filter);
         builder = new AlertDialog.Builder(this);
         title1 = (LinearLayout) findViewById(R.id.title1);
+        playtv = (TextView) findViewById(R.id.playtv);
+        stoptv = (TextView) findViewById(R.id.stoptv);
+        play = (Button) findViewById(R.id.play);
+        stop = (Button) findViewById(R.id.stop);
+        play.setOnClickListener(this::Click3);
+        stop.setOnClickListener(this::Click4);
         initData();
-        initRecyclerView();
+        initListView();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -62,6 +74,7 @@ public class MainActivity4_movies extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity3_moviedetails.class);
                 intent.putExtra("id", i);
+                intent.putExtra("name",movieList.get(i).getName());
                 startActivityForResult(intent, 1);
             }
         });
@@ -78,7 +91,7 @@ public class MainActivity4_movies extends AppCompatActivity {
         movieList.add(new MovieXML("Alvin and the chipmanks", R.drawable.movie_image_chipmanks, "imdb - 4.3", "2D", "87 min"));
     }
 
-    private void initRecyclerView() {
+    private void initListView() {
         listView = findViewById(R.id.listView);
         myAdapter = new MyAdapter(getApplicationContext(), movieList);
         listView.setAdapter(myAdapter);
@@ -105,6 +118,9 @@ public class MainActivity4_movies extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int i)
                     {
                         Toast.makeText(getApplicationContext(),"closing app",Toast.LENGTH_LONG).show();
+                        Intent music=new Intent(getApplicationContext(),MyService.class);
+                        stopService(music);
+                        finishAndRemoveTask();
                         finishAffinity();
                     }
                 })
@@ -137,6 +153,29 @@ public class MainActivity4_movies extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void Click3(View v) {
+        builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int i)
+            {
+                Intent music=new Intent(getApplicationContext(),MyService.class);
+                startService(music);
+            }
+        })
+                .setNegativeButton("no", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
 
+    public void Click4(View v) {
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
+    }
 
 }

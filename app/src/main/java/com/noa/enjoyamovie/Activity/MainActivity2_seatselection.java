@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.ColorStateList;
@@ -19,11 +20,13 @@ import android.widget.TextView;
 
 import com.noa.enjoyamovie.IncomingCall_Reciver;
 import com.noa.enjoyamovie.MainActivity8_ticketselection;
+import com.noa.enjoyamovie.MyService;
 import com.noa.enjoyamovie.R;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,34 +35,38 @@ public class MainActivity2_seatselection extends AppCompatActivity {
 
     LinearLayout title1;
     AlertDialog.Builder builder;
-    Button one;
-    Button two;
-    Button three;
-    Button four;
-    Button five;
-    Button six;
-    Button seven;
-    Button eight;
-    Button nine;
-    Button ten;
-    Button eleven;
-    Button twelve;
-    Button thirteen;
-    Button fourteen;
-    Button fifteen;
-    Button sixteen;
-    Button seventeen;
-    Button eighteen;
-    Button nineteen;
-    Button twenty;
-    Button twentyOne;
-    Button twentyTwo;
-    Button twentyThree;
-    Button twentyFour;
-    Button twentyFive;
-    Button twentySix;
-    Button twentySeven;
-    Button twentyEight;
+    Button bt1;
+    Button bt2;
+    Button bt3;
+    Button bt4;
+    Button bt5;
+    Button bt6;
+    Button bt7;
+    Button bt8;
+    Button bt9;
+    Button bt10;
+    Button bt11;
+    Button bt12;
+    Button bt13;
+    Button bt14;
+    Button bt15;
+    Button bt16;
+    Button bt17;
+    Button bt18;
+    Button bt19;
+    Button bt20;
+    Button bt21;
+    Button bt22;
+    Button bt23;
+    Button bt24;
+    Button bt25;
+    Button bt26;
+    Button bt27;
+    Button bt28;
+    Button play;
+    Button stop;
+    TextView playtv;
+    TextView stoptv;
     TextView title;
     TextView greentext;
     TextView greytext;
@@ -70,6 +77,10 @@ public class MainActivity2_seatselection extends AppCompatActivity {
     ImageView green;
     ImageView grey;
     ImageView orange;
+    Intent intentg;
+    String MovieName;
+    int i;
+    boolean[][] flag = new  boolean[7][4];
     public int[][] seats = new int[7][4];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,38 +94,45 @@ public class MainActivity2_seatselection extends AppCompatActivity {
         myReceiver=new IncomingCall_Reciver();
         filter=new IntentFilter("android.intent.action.PHONE_STATE");
         registerReceiver(myReceiver,filter);
+        intentg=getIntent();
+        i= intentg.getIntExtra("id",0);
+        //לקבל גם את השעה מבין 3 שעות אפשריות, מספר האולם
         title1 = (LinearLayout) findViewById(R.id.title1);
         title = (TextView) findViewById(R.id.title);
-        one = (Button) findViewById(R.id.one);
-        two = (Button) findViewById(R.id.two);
-        three = (Button) findViewById(R.id.three);
-        four = (Button) findViewById(R.id.four);
-        five = (Button) findViewById(R.id.five);
-        six = (Button) findViewById(R.id.six);
-        seven = (Button) findViewById(R.id.seven);
-        eight = (Button) findViewById(R.id.eight);
-        nine = (Button) findViewById(R.id.nine);
-        ten = (Button) findViewById(R.id.ten);
-        eleven = (Button) findViewById(R.id.eleven);
-        twelve = (Button) findViewById(R.id.twelve);
-        thirteen = (Button) findViewById(R.id.thirteen);
-        fourteen = (Button) findViewById(R.id.fourteen);
-        fifteen = (Button) findViewById(R.id.fifteen);
-        sixteen = (Button) findViewById(R.id.sixteen);
-        seventeen = (Button) findViewById(R.id.seventeen);
-        eighteen = (Button) findViewById(R.id.eighteen);
-        nineteen = (Button) findViewById(R.id.nineteen);
-        twenty = (Button) findViewById(R.id.twenty);
-        twentyOne = (Button) findViewById(R.id.twentyOne);
-        twentyTwo = (Button) findViewById(R.id.twentyTwo);
-        twentyThree = (Button) findViewById(R.id.twentyThree);
-        twentyFour = (Button) findViewById(R.id.twentyFour);
-        twentyFive = (Button) findViewById(R.id.twentyFive);
-        twentySix = (Button) findViewById(R.id.twentySix);
-        twentySeven = (Button) findViewById(R.id.twentySeven);
-        twentyEight = (Button) findViewById(R.id.twentyEight);
+        bt1 = (Button) findViewById(R.id.bt1);
+        bt2 = (Button) findViewById(R.id.bt2);
+        bt3 = (Button) findViewById(R.id.bt3);
+        bt4 = (Button) findViewById(R.id.bt4);
+        bt5 = (Button) findViewById(R.id.bt5);
+        bt6 = (Button) findViewById(R.id.bt6);
+        bt7 = (Button) findViewById(R.id.bt7);
+        bt8 = (Button) findViewById(R.id.bt8);
+        bt9 = (Button) findViewById(R.id.bt9);
+        bt10 = (Button) findViewById(R.id.bt10);
+        bt11 = (Button) findViewById(R.id.bt11);
+        bt12 = (Button) findViewById(R.id.bt12);
+        bt13 = (Button) findViewById(R.id.bt13);
+        bt14 = (Button) findViewById(R.id.bt14);
+        bt15 = (Button) findViewById(R.id.bt15);
+        bt16 = (Button) findViewById(R.id.bt16);
+        bt17 = (Button) findViewById(R.id.bt17);
+        bt18 = (Button) findViewById(R.id.bt18);
+        bt19 = (Button) findViewById(R.id.bt19);
+        bt20 = (Button) findViewById(R.id.bt20);
+        bt21 = (Button) findViewById(R.id.bt21);
+        bt22 = (Button) findViewById(R.id.bt22);
+        bt23 = (Button) findViewById(R.id.bt23);
+        bt24 = (Button) findViewById(R.id.bt24);
+        bt25 = (Button) findViewById(R.id.bt25);
+        bt26 = (Button) findViewById(R.id.bt26);
+        bt27 = (Button) findViewById(R.id.bt27);
+        bt28 = (Button) findViewById(R.id.bt28);
         back = (Button) findViewById(R.id.back);
         topay = (Button) findViewById(R.id.topay);
+        play = (Button) findViewById(R.id.play);
+        stop = (Button) findViewById(R.id.stop);
+        playtv = (TextView) findViewById(R.id.playtv);
+        stoptv = (TextView) findViewById(R.id.stoptv);
         greentext = (TextView) findViewById(R.id.greentext);
         greytext = (TextView) findViewById(R.id.greytext);
         orangetext = (TextView) findViewById(R.id.orangetext);
@@ -125,12 +143,21 @@ public class MainActivity2_seatselection extends AppCompatActivity {
         builder=new AlertDialog.Builder(this);
         back.setOnClickListener(this::Click1);
         topay.setOnClickListener(this::Click2);
+        play.setOnClickListener(this::Click3);
+        stop.setOnClickListener(this::Click4);
+
+        for (int i = 0; i < flag.length; i++) {
+            for (int j = 0; j < flag[0].length; j++) {
+                flag[i][j]=false;
+            }
+
+        }
 
         Intent intent = getIntent();
 
         String name = intent.getStringExtra("name");
         seats = Read2dArray(name);
-
+        MovieName = name;
         Resources res = getResources();
         int i,j;
         for (i=0;i<4;i++){
@@ -145,17 +172,21 @@ public class MainActivity2_seatselection extends AppCompatActivity {
                     ((Button)findViewById(id)).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            seats[finalJ][finalI] = 1;
-                            ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 255, 152, 0)));
+                            if (!flag[finalJ][finalI]) {
+                                flag[finalJ][finalI]=true;
+                                seats[finalJ][finalI] = 1;
+                                ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 255, 152, 0)));
+                            }else{
+                                flag[finalJ][finalI]=false;
+                                seats[finalJ][finalI] = 1;
+                                ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 109, 200, 113)));
+                            }
+
                         }
                     });
                 }
-
             }
         }
-
-
-
     }
 
 
@@ -164,7 +195,7 @@ public class MainActivity2_seatselection extends AppCompatActivity {
         StringBuilder builder = new StringBuilder();
         for(int i = 0; i < seats.length; i++)//for each row
         {
-            for(int j = 0; j < seats.length; j++)//for each column
+            for(int j = 0; j < seats[0].length; j++)//for each column
             {
                 builder.append(seats[i][j]+"");//append to the output string
                 if(j < seats.length - 1)//if this is not the last row element
@@ -172,28 +203,23 @@ public class MainActivity2_seatselection extends AppCompatActivity {
             }
             builder.append("\n");//append new line at the end of the row
         }
-        BufferedWriter writer = null;
+        FileOutputStream fos = null;
         try {
-            writer = new BufferedWriter(new FileWriter( name + ".txt"));
+            fos = openFileOutput(name, getApplicationContext().MODE_PRIVATE);
+            fos.write(builder.toString().getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            writer.write(builder.toString());//save the string representation of the board
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
 
 
     public int[][] Read2dArray(String name)  {
-        String savedGameFile = name+".txt";
+        String savedGameFile = "/data/user/0/com.noa.enjoyamovie/files/"+name;
         int[][] seats = new int[9][9];
         BufferedReader reader = null;
         try {
@@ -234,12 +260,36 @@ public class MainActivity2_seatselection extends AppCompatActivity {
         finish();
         Intent intent = new Intent(this, MainActivity3_moviedetails.class);
         startActivity(intent);
-
     }
     public void Click2(View v) {
-        finish();
         Intent intent = new Intent(this, MainActivity8_ticketselection.class);
+        Save2dArray(seats,MovieName);
+        intent.putExtra("id", i);
         startActivity(intent);
+    }
 
+    public void Click3(View v) {
+        builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int i)
+            {
+                Intent music=new Intent(getApplicationContext(),MyService.class);
+                startService(music);
+            }
+        })
+                .setNegativeButton("no", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+    public void Click4(View v) {
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
     }
 }

@@ -20,38 +20,18 @@
         android:textColor="#FFFFFF"
         android:textSize="50sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.2"
-        android:orientation="horizontal">
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
         <Button
             android:id="@+id/gotoactivity4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="300dp"
+            android:layout_marginLeft="25dp"
+            android:layout_gravity="left"
             android:scaleType="center"
-            android:background="@drawable/custom_button"
             android:text="start"
-            android:textAllCaps="false"
-            android:textSize="20sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.05" />
+            android:backgroundTint="#2A3361"
+            android:textColor="#CFD8FF"
+            android:textSize="30sp" />
 
 </LinearLayout>

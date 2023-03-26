@@ -3,12 +3,14 @@
     package="com.noa.enjoyamovie">
 
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -24,8 +26,15 @@
             android:name=".IncomingCall_Reciver"
             android:enabled="true"
             android:exported="true"></receiver>
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true"></service>
         <activity
             android:name=".MainActivity14_leaderboard"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity13_sign_up"
             android:exported="true" />
         <activity
             android:name=".MainActivity12_sign_in"

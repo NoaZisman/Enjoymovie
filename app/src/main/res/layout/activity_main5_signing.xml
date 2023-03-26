@@ -9,13 +9,14 @@
     android:background="@drawable/movie_image_cinema"
     tools:context=".MainActivity5_signing">
 
+
     <Button
         android:id="@+id/signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="7dp"
-        android:layout_marginTop="266dp"
+        android:layout_marginTop="280dp"
         android:background="#00FFFFFF"
         android:fontFamily="@font/bangers"
         android:text="sign in"
@@ -33,4 +34,64 @@
         android:text="sign up"
         android:textColor="#d48a0d"
         android:textSize="35sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/stoptv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="140dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="stop"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/playtv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:text="play"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginRight="130dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:layout_marginLeft="150dp"
+            android:backgroundTint="#d48a0d"
+            android:drawableRight="@drawable/stop_music" />
+        <Button
+            android:id="@+id/play"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:backgroundTint="#d48a0d"
+            android:drawableLeft="@drawable/play_music"
+            android:layout_marginRight="135dp" />
+    </LinearLayout>
+
 </LinearLayout>

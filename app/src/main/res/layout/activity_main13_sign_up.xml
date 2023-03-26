@@ -9,11 +9,69 @@
     android:background="#2A3361"
     tools:context=".MainActivity13_sign_up">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/stoptv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="265dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="stop"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/playtv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:text="play"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginRight="10dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:layout_marginLeft="275dp"
+            android:backgroundTint="#2A3361"
+            android:drawableRight="@drawable/stop_music" />
+        <Button
+            android:id="@+id/play"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:backgroundTint="#2A3361"
+            android:drawableLeft="@drawable/play_music"
+            android:layout_marginRight="18dp" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
         android:layout_gravity="center"
         android:fontFamily="@font/sofia"
         android:text="Sign Up"
@@ -24,12 +82,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
+        android:gravity="left"
         android:layout_marginTop="50dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:backgroundTint="#848AA8"
         android:background="@drawable/costume_edittext"
+        android:drawableLeft="@drawable/edittext_person"
         android:drawablePadding="10dp"
         android:fontFamily="sans-serif-condensed"
         android:hint="username"
@@ -37,7 +96,7 @@
         android:paddingRight="10dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        android:textSize="25sp"
+        android:textSize="30sp"
         android:text="" />
 
     <EditText
@@ -45,54 +104,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
+        android:gravity="left"
         android:layout_marginTop="50dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:backgroundTint="#848AA8"
         android:background="@drawable/costume_edittext"
-        android:drawablePadding="10dp"
-        android:fontFamily="sans-serif-condensed"
-        android:hint="id"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textSize="25sp"
-        android:text="" />
-
-    <EditText
-        android:id="@+id/gmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:backgroundTint="#848AA8"
-        android:background="@drawable/costume_edittext"
-        android:drawablePadding="10dp"
-        android:fontFamily="sans-serif-condensed"
-        android:hint="gmail"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textSize="25sp"
-        android:text="" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:backgroundTint="#848AA8"
-        android:background="@drawable/costume_edittext"
+        android:drawableLeft="@drawable/edittext_lock"
         android:drawablePadding="10dp"
         android:fontFamily="sans-serif-condensed"
         android:hint="password"
@@ -100,13 +118,58 @@
         android:paddingRight="10dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        android:textSize="25sp"
+        android:textSize="30sp"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/gmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="left"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:backgroundTint="#848AA8"
+        android:background="@drawable/costume_edittext"
+        android:inputType="numberDecimal"
+        android:drawableLeft="@drawable/edittext_id"
+        android:drawablePadding="10dp"
+        android:fontFamily="sans-serif-condensed"
+        android:hint="id"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="30sp"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="left"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:backgroundTint="#848AA8"
+        android:background="@drawable/costume_edittext"
+        android:drawableLeft="@drawable/edittext_gmail"
+        android:drawablePadding="10dp"
+        android:fontFamily="sans-serif-condensed"
+        android:hint="gmai"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="30sp"
         android:text="" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal">
 
         <Button
