@@ -1,10 +1,10 @@
 package com.noa.enjoyamovie;
 
 public class Order extends Users{
-    String wayOfPayment;
+   private String wayOfPayment;
 
-    public Order(String name, String lastName, String gmail, String id, String password, String wayOfPayment) {
-        super(name, lastName, gmail, id, password);
+    public Order(String username, String id, String password, String wayOfPayment) {
+        super(username, id, password);
         this.wayOfPayment = wayOfPayment;
     }
     public String getWayOfPayment() {

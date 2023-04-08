@@ -1,6 +1,5 @@
 package com.noa.enjoyamovie.Activity;
 import androidx.appcompat.app.AlertDialog;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -23,6 +22,8 @@ import com.noa.enjoyamovie.MainActivity5_signing;
 import com.noa.enjoyamovie.MainActivity6_aboutproject;
 import com.noa.enjoyamovie.MainActivity7_aboutcreator;
 import com.noa.enjoyamovie.R;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class MainActivity extends AppCompatActivity {
 Button gotoactivity4;

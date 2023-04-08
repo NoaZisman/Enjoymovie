@@ -1,27 +1,17 @@
 package com.noa.enjoyamovie;
 
 public class Users {
-    String name;
-    String lastName;
-    String gmail;
-    String id;
-    String password;
-    public Users( String name,String lastName,String gmail,String id,String password)
+   protected String username;
+   protected String id;
+   protected String password;
+    public Users( String name,String id,String password)
     {
-        this.name=name;
-        this.lastName=lastName;
-        this.gmail=gmail;
+        this.username=name;
         this.id=id;
         this.password=password;
     }
     public String getName() {
-        return name;
-    }
-    public String getLastName() {
-        return lastName;
-    }
-    public String getGmail() {
-        return gmail;
+        return username;
     }
     public String getId() {
         return id;
@@ -31,13 +21,7 @@ public class Users {
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    public void setGmail(String gmail) {
-        this.gmail = gmail;
+        this.username = name;
     }
     public void setId(String id) {
         this.id = id;
@@ -49,7 +33,7 @@ public class Users {
     @Override
     public String toString()
     {
-        return "name:" + this.name + ", last name:" + lastName + ", gmail:" + this.gmail+ ", id:" + this.id+ ", password:" + this.password;
+        return "name:" + this.username + ", id:" + this.id+ ", password:" + this.password;
     }
 
 }

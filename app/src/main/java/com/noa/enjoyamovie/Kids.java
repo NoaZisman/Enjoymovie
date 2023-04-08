@@ -3,7 +3,7 @@ package com.noa.enjoyamovie;
 import com.noa.enjoyamovie.Movie.Movie;
 
 public class Kids extends Movie {
-    String animation;
+   private String animation;
 
     public Kids(String name, String yearOfPublication, String director, String presentsIn, String url,String summary, String animation) {
         super(name, yearOfPublication, director, presentsIn, url, summary);

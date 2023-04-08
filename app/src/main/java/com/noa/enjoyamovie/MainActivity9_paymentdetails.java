@@ -10,13 +10,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.noa.enjoyamovie.Activity.MainActivity2_seatselection;
 
-public class MainActivity9_paymentdetails extends AppCompatActivity {
+public class MainActivity9_paymentdetails extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 TextView ticketsSelection;
     TextView paymentDetails;
     TextView approval;
@@ -43,7 +47,7 @@ TextView ticketsSelection;
     EditText lastnamebuyed;
     EditText emailbuyed;
     EditText phonenumberbuyed;
-    EditText wayofpaymentbuyed;
+    Spinner wayofpaymentbuyed;
     EditText cardnumberbuyed;
     EditText cardvaliditybuyed;
     EditText threedigitsbuyed;
@@ -96,7 +100,10 @@ TextView ticketsSelection;
         cardvaliditybuyed = (EditText) findViewById(R.id.cardvaliditybuyed);
         phonenumberbuyed = (EditText) findViewById(R.id.phonenumberbuyed);
         cardnumberbuyed = (EditText) findViewById(R.id.cardnumberbuyed);
-        wayofpaymentbuyed = (EditText) findViewById(R.id.wayofpaymentbuyed);
+        wayofpaymentbuyed = (Spinner) findViewById(R.id.wayofpaymentbuyed);
+        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this,R.array.Weight2, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        wayofpaymentbuyed.setOnItemSelectedListener(this);
         toapproval = (Button) findViewById(R.id.toapproval);
         playtv = (TextView) findViewById(R.id.playtv);
         stoptv = (TextView) findViewById(R.id.stoptv);
@@ -108,16 +115,46 @@ TextView ticketsSelection;
         play.setOnClickListener(this::Click3);
         stop.setOnClickListener(this::Click4);
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String cardOrCash=adapterView.getItemAtPosition(i).toString();
+        if(cardOrCash.equals("cash"))
+        {
+            cardnumberbuyed.setVisibility(View.GONE);
+            cardvaliditybuyed.setVisibility(View.GONE);
+            threedigitsbuyed.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
     public void Click1(View v) {
         finish();
         Intent intent = new Intent(this, MainActivity8_ticketselection.class);
         startActivity(intent);
 
     }
+
     public void Click2(View v) {
-        finish();
-        Intent intent = new Intent(this, MainActivity9_paymentdetails.class);
-        startActivity(intent);
+        if(firstnamebuyed.getText().toString().length()>2 && firstnamebuyed.getText().toString().length()<=10)
+        {
+            if(lastnamebuyed.getText().toString().length()>2 && firstnamebuyed.getText().toString().length()<=15)
+            {
+                if(phonenumberbuyed.getText().toString().length()>0 && phonenumberbuyed.getText().toString().length()==10)
+                    //continue with cash or credit card and the rest
+                finish();
+                Intent intent = new Intent(this, MainActivity10_paymentapproval.class);
+                intent.putExtra("email",emailbuyed.getText().toString());
+                intent.putExtra("phonenumber",phonenumberbuyed.getText().toString());
+                startActivity(intent);
+            }
+
+        }
+
 
     }
 
@@ -146,4 +183,6 @@ TextView ticketsSelection;
         Intent music=new Intent(getApplicationContext(),MyService.class);
         stopService(music);
     }
+
+
 }

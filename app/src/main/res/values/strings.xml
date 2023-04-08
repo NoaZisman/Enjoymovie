@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Enjoy a movie</string>
+    <string-array name="Weight">
+        <item>13:00</item>
+        <item>17:45</item>
+        <item>20:15</item>
+    </string-array>
+
+    <string-array name="Weight2">
+        <item>credit card</item>
+        <item>cash</item>
+    </string-array>
+
 </resources>

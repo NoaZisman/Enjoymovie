@@ -4,14 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +27,7 @@ import com.noa.enjoyamovie.MyService;
 import com.noa.enjoyamovie.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity3_moviedetails extends AppCompatActivity {
@@ -38,6 +44,14 @@ public class MainActivity3_moviedetails extends AppCompatActivity {
     MyAdapter myAdapter;
     List<Adult> movieListDetails;
     AlertDialog.Builder builder;
+    Button CalendarView;
+    int year11;
+    int month1;
+    int day1;
+    int hour1;
+    int minute1;
+    Spinner spinner;
+    DatePickerDialog.OnDateSetListener datepicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +74,17 @@ public class MainActivity3_moviedetails extends AppCompatActivity {
         title1 = (LinearLayout) findViewById(R.id.title1);
         toorder = (Button) findViewById(R.id.toorder);
         back = (Button) findViewById(R.id.back);
+        CalendarView = (Button) findViewById(R.id.CalendarView);
         back.setOnClickListener(this::Click1);
         toorder.setOnClickListener(this::Click2);
         play.setOnClickListener(this::Click3);
         stop.setOnClickListener(this::Click4);
+
+        spinner = findViewById(R.id.spinner);
+
         initData();
 
+        Button url1=findViewById(R.id.MovieDetailsurl);
         TextView name1 = findViewById(R.id.MovieDetailsName);
         name1.setText(movieListDetails.get(i).getName());
         TextView sum1 = findViewById(R.id.MovieDetailsSummary);
@@ -78,11 +97,19 @@ public class MainActivity3_moviedetails extends AppCompatActivity {
         presentIn1.setText(movieListDetails.get(i).getPresentsIn());
         TextView adultContentOnly1 = findViewById(R.id.MovieDetailsadultContentOnly);
         adultContentOnly1.setText(movieListDetails.get(i).getAdultContentOnly());
+        Calendar calendar=Calendar.getInstance();
+        year11 =calendar.get(Calendar.YEAR);
+        month1 =calendar.get(Calendar.MONTH);
+        day1 =calendar.get(Calendar.DAY_OF_MONTH);
+        hour1=calendar.get(Calendar.HOUR_OF_DAY);
+        minute1=calendar.get(Calendar.MINUTE);
+        CalendarView.setOnClickListener(this::Click5);
+        url1.setOnClickListener(this::Click6);
     }
 
     private void initData() {
         movieListDetails = new ArrayList<>();
-        movieListDetails.add(new Adult("Avatar", "2022", "James Cameron", "2D,3D", "https://www.youtube.com/watch?v=d9MyW72ELq0","no","More than a decade after the events of the first film, 'Avatar: The Path of Water' begins to tell the story of the Sully family (Jake, Neytiri and their children), the troubles they face, the effort they make to protect each other, their struggle to stay alive and the accompanying tragedies them"));
+        movieListDetails.add(new Adult("Avatar", "2022", "James Cameron", "2D", "https://www.youtube.com/watch?v=d9MyW72ELq0","no","More than a decade after the events of the first film, 'Avatar: The Path of Water' begins to tell the story of the Sully family (Jake, Neytiri and their children), the troubles they face, the effort they make to protect each other, their struggle to stay alive and the accompanying tragedies them"));
         movieListDetails.add(new Adult("My sweet monster", "2021", "Viktor Glukhushin, Maksim Volkov", "2D", "https://www.youtube.com/watch?v=hSCqtzcMeEg","no","Princess Barbara has never listened to the laws: independent, rebellious who refuses to accept the decree of the law that states she must marry a prince she has never met. So she runs away from the palace to the forest, where she meets a sweet monster who guards the kingdom's forests who will help her escape and determine her own destiny"));
         movieListDetails.add(new Adult("The menu", "2022", "Mark Mylod", "2D", "https://www.youtube.com/watch?v=C_uTkUGcHv4","no","A young couple travels to an exclusive destination, along with a group of strangers, to eat at a restaurant on a remote island in the Pacific Ocean. There, the acclaimed and somewhat obsessive chef prepared a rich tasting menu for them, with some surprises that will leave the guests speechless"));
         movieListDetails.add(new Adult("Shotgun wedding","2023", "Jason Moore", "2D", "https://www.youtube.com/watch?v=U8gz0rUzTAY","no","Darcy and Tom are going to get married. Tom arranges for the wedding to take place in Bali, so that their families will be reunited together in an exotic destination. As Darcy and Tom begin to get cold feet about the wedding, their troubles worsen when the wedding guests are taken prisoner by a group of pirates"));
@@ -98,11 +125,23 @@ public class MainActivity3_moviedetails extends AppCompatActivity {
         startActivity(intent);
     }
     public void Click2(View v) {
-        finish();
+
         Intent intent = new Intent(this, MainActivity2_seatselection.class);
        // intent.putExtra("id", movieListDetails.get(i).getName());
         intent.putExtra("name",movieListDetails.get(i).getName());
-        //להעביר גם את השעה מבין 3 שעות אפשריות, מספר האולם, מספר שורת ישיבה
+        if(dateTxt == null || dateTxt.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Choose date first",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(spinner.getSelectedItem()==null){
+            Toast.makeText(getApplicationContext(),"Choose time first",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        intent.putExtra("time",spinner.getSelectedItem().toString());
+        intent.putExtra("date",dateTxt);
+
+        finish();
+        //להעביר גם את השעה ותאריך מבין 3 שעות אפשריות, מספר האולם, מספר שורת ישיבה
         startActivity(intent);
 
     }
@@ -130,5 +169,50 @@ public class MainActivity3_moviedetails extends AppCompatActivity {
     public void Click4(View v) {
         Intent music=new Intent(getApplicationContext(),MyService.class);
         stopService(music);
+    }
+
+String dateTxt;
+    public void Click5(View v)
+    {
+        Calendar calmax = Calendar.getInstance();
+        calmax.set(calmax.get(Calendar.YEAR),calmax.get(Calendar.MONTH),calmax.get(Calendar.DAY_OF_MONTH)+7,
+                calmax.get(Calendar.HOUR_OF_DAY), calmax.get(Calendar.MINUTE), 0);
+        long timemax = calmax.getTimeInMillis();
+
+        Calendar calmin = Calendar.getInstance();
+        calmin.set(calmin.get(Calendar.YEAR),calmin.get(Calendar.MONTH),calmin.get(Calendar.DAY_OF_MONTH),
+                calmin.get(Calendar.HOUR_OF_DAY), calmin.get(Calendar.MINUTE), 0);
+        long timemin = calmin.getTimeInMillis();
+        datepicker=new DatePickerDialog.OnDateSetListener()
+        {
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+            {
+                if((year>=year11 && month>=month1 && dayOfMonth>=day1) || (year>year11 && month<=month1 && dayOfMonth<=day1) || (year>year11 && month>=month1 && dayOfMonth<=day1) ||(year>year11 && month>=month1 && dayOfMonth>=day1)||(year>year11 && month<=month1 && dayOfMonth>=day1))
+                {
+
+                    month = month + 1;
+                    dateTxt = dayOfMonth + "/" + month + "/" + year;
+                    //Click2(v,date);
+                }
+
+            }
+        };
+
+        DatePickerDialog datePickerDialog =new DatePickerDialog(MainActivity3_moviedetails.this,android.R.style.Theme_Holo_Light_Dialog_MinWidth,datepicker,year11,month1,day1);
+        datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.flower);
+        datePickerDialog.getDatePicker().setMaxDate(timemax);
+        datePickerDialog.getDatePicker().setMinDate(timemin);
+        datePickerDialog.show();
+
+    }
+    public void Click6(View v) {
+        intent=getIntent();
+        i= intent.getIntExtra("id",0);
+        gotoUrl(movieListDetails.get(i).getUrl());
+    }
+
+    private void gotoUrl(String url) {
+Uri uri= Uri.parse(url);
+startActivity(new Intent(Intent.ACTION_VIEW,uri));
     }
 }

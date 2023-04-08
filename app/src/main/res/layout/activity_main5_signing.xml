@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="7dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="230dp"
         android:background="#00FFFFFF"
         android:fontFamily="@font/bangers"
         android:text="sign in"

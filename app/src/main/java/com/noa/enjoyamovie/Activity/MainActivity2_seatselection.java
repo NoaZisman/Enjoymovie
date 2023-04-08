@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.noa.enjoyamovie.Firebase;
 import com.noa.enjoyamovie.IncomingCall_Reciver;
 import com.noa.enjoyamovie.MainActivity8_ticketselection;
 import com.noa.enjoyamovie.MyService;
@@ -30,6 +32,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity2_seatselection extends AppCompatActivity {
 
@@ -80,8 +84,8 @@ public class MainActivity2_seatselection extends AppCompatActivity {
     Intent intentg;
     String MovieName;
     int i;
-    boolean[][] flag = new  boolean[7][4];
-    public int[][] seats = new int[7][4];
+    boolean[][] flag = new  boolean[4][7];
+    public int[][] seats = new int[4][7];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,105 +158,91 @@ public class MainActivity2_seatselection extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-
+        time= intent.getStringExtra("time");
+        date= intent.getStringExtra("date");
         String name = intent.getStringExtra("name");
-        seats = Read2dArray(name);
+
         MovieName = name;
-        Resources res = getResources();
-        int i,j;
-        for (i=0;i<4;i++){
-            for(j=0;j<7;j++){
-                int id = res.getIdentifier("bt"+(i*7+j+1), "id", getApplicationContext().getPackageName());
-                if (seats[j][i] == 1){
-                    ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 128, 124, 124)));
-                }
-                else{
-                    int finalJ = j;
-                    int finalI = i;
-                    ((Button)findViewById(id)).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (!flag[finalJ][finalI]) {
-                                flag[finalJ][finalI]=true;
-                                seats[finalJ][finalI] = 1;
-                                ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 255, 152, 0)));
-                            }else{
-                                flag[finalJ][finalI]=false;
-                                seats[finalJ][finalI] = 1;
-                                ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 109, 200, 113)));
-                            }
+        Read2dArray(name);
 
-                        }
-                    });
-                }
-            }
-        }
     }
 
-
-
+    String time,date;
+    public static List<List<Integer>> convertIntArrayToArrayList(int[][] intArray) {
+        List<List<Integer>> arrayList = new ArrayList<>();
+        for (int[] row : intArray) {
+            List<Integer> rowList = new ArrayList<>();
+            for (int num : row) {
+                rowList.add(num);
+            }
+            arrayList.add(rowList);
+        }
+        return arrayList;
+    }
     public void Save2dArray(int[][] seats,String name) {
-        StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < seats.length; i++)//for each row
-        {
-            for(int j = 0; j < seats[0].length; j++)//for each column
-            {
-                builder.append(seats[i][j]+"");//append to the output string
-                if(j < seats.length - 1)//if this is not the last row element
-                    builder.append(",");//then add comma (if you don't like commas you can use spaces)
+        Firebase firebase = new Firebase();
+        firebase.saveIntList(convertIntArrayToArrayList(seats),MovieName,date+"/"+time);
+    }
+
+
+    public static int[][] convertArrayListToIntArray(List<List<Integer>> arrayList) {
+        int numRows = arrayList.size();
+        if(numRows == 0){
+            return new int[4][7];
+        }
+        int numCols = arrayList.get(0).size();
+
+        int[][] intArray = new int[numRows][numCols];
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                intArray[i][j] = arrayList.get(i).get(j);
             }
-            builder.append("\n");//append new line at the end of the row
         }
-        FileOutputStream fos = null;
-        try {
-            fos = openFileOutput(name, getApplicationContext().MODE_PRIVATE);
-            fos.write(builder.toString().getBytes());
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return intArray;
+    }
+
+    public void Read2dArray(String name)  {
+        Firebase firebase = new Firebase();
+        firebase.readIntList(new Firebase.OnDataLoadedListener() {
+            @Override
+            public void onDataLoaded(List<List<Integer>> arrayList) {
+                seats = convertArrayListToIntArray(arrayList);
+                Resources res = getResources();
+                int i,j;
+                for (i=0;i<4;i++){
+                    for(j=0;j<7;j++){
+                        int id = res.getIdentifier("bt"+(i*7+j+1), "id", getApplicationContext().getPackageName());
+                        if (seats[i][j] == 1){
+                            ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 128, 124, 124)));
+                        }
+                        else{
+                            int finalJ = j;
+                            int finalI = i;
+                            ((Button)findViewById(id)).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (!flag[finalI][finalJ]) {
+                                        flag[finalI][finalJ]=true;
+                                        seats[finalI][finalJ] = 1;
+                                        ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 255, 152, 0)));
+                                    }else{
+                                        flag[finalI][finalJ]=false;
+                                        seats[finalI][finalJ] = 1;
+                                        ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 109, 200, 113)));
+                                    }
+
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        },MovieName, date + "/" + time);
+
 
     }
 
 
-
-    public int[][] Read2dArray(String name)  {
-        String savedGameFile = "/data/user/0/com.noa.enjoyamovie/files/"+name;
-        int[][] seats = new int[9][9];
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(savedGameFile));
-        } catch (FileNotFoundException e) {
-            Save2dArray(new int[7][4],name);
-            return new int[7][4];
-        }
-        String line = "";
-        int row = 0;
-        while(true)
-        {
-            try {
-                if (!((line = reader.readLine()) != null)) break;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String[] cols = line.split(","); //note that if you have used space as separator you have to split on " "
-            int col = 0;
-            for(String  c : cols)
-            {
-                seats[row][col] = Integer.parseInt(c);
-                col++;
-            }
-            row++;
-        }
-        try {
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return seats;
-    }
 
 
 

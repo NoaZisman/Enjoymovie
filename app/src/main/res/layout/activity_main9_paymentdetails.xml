@@ -141,7 +141,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -211,7 +211,7 @@
             android:text=""
             android:textColor="#000000"
             android:textColorHint="#000000"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/lastnamebuyed"
@@ -231,13 +231,13 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:drawablePadding="10dp"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <TextView
@@ -307,7 +307,7 @@
             android:text=""
             android:textColor="#000000"
             android:textColorHint="#000000"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/phonenumberbuyed"
@@ -327,7 +327,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:drawablePadding="10dp"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <TextView
@@ -442,24 +442,20 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <EditText
+        <Spinner
             android:id="@+id/wayofpaymentbuyed"
+            style="@android:style/Widget.Holo.Light.Spinner"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginLeft="2dp"
-            android:background="@drawable/costume_edittext"
-            android:drawablePadding="10dp"
-            android:fontFamily="sans-serif-condensed"
-            android:hint="first name"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text=""
-            android:textColor="#000000"
-            android:textColorHint="#000000"
-            android:textSize="20sp" />
+            android:drawSelectorOnTop="true"
+            android:theme="@style/mySpinnerItemStyle2"
+            android:entries="@array/Weight2" />
 
         <EditText
             android:id="@+id/cardnumberbuyed"
@@ -471,7 +467,7 @@
             android:gravity="center"
             android:fontFamily="sans-serif-condensed"
             android:text=""
-            android:hint="last name"
+            android:hint="card number"
             android:textColor="#000000"
             android:textColorHint="#000000"
             android:background="@drawable/costume_edittext"
@@ -491,7 +487,7 @@
             android:background="@drawable/costume_edittext"
             android:drawablePadding="10dp"
             android:fontFamily="sans-serif-condensed"
-            android:hint="card validity"
+            android:hint="00/00"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text=""
@@ -511,7 +507,7 @@
             android:background="@drawable/costume_edittext"
             android:drawablePadding="10dp"
             android:fontFamily="sans-serif-condensed"
-            android:hint="first name"
+            android:hint="3 digits"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text=""

@@ -1,11 +1,11 @@
 package com.noa.enjoyamovie.Movie;
 public class Movie {
-    String name;
-    String yearOfPublication;
-    String director;
-    String presentsIn;
-    String url;
-    String summary;
+    protected String name;
+    protected String yearOfPublication;
+    protected String director;
+    protected String presentsIn;
+    protected String url;
+    protected String summary;
     public Movie(String name,String yearOfPublication,String director,String presentsIn, String url, String summary)
     {
         this.name=name;

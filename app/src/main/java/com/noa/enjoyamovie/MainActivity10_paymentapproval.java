@@ -8,10 +8,13 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity10_paymentapproval extends AppCompatActivity {
 TextView ticketsSelection;
@@ -19,10 +22,14 @@ TextView ticketsSelection;
     TextView approval;
     TextView sum;
     TextView title;
+    Intent intent=getIntent();
+    String email=intent.getStringExtra("email");
+    String phoneNumber=intent.getStringExtra("phonenumber");
     TextView movienameorder;
     TextView movietimeorder;
     TextView hallandseatingorder;
     TextView totalpaymentorder;
+    TextView cashorcardorder;
     Button tosum;
     Button play;
     Button stop;
@@ -53,6 +60,7 @@ TextView ticketsSelection;
         sum = (TextView) findViewById(R.id.sum);
         movienameorder = (TextView) findViewById(R.id.movienameorder);
         movietimeorder = (TextView) findViewById(R.id.movietimeorder);
+        cashorcardorder = (TextView) findViewById(R.id.cashorcardorder);
         hallandseatingorder = (TextView) findViewById(R.id.hallandseatingorder);
         totalpaymentorder = (TextView) findViewById(R.id.totalpaymentorder);
         tosum = (Button) findViewById(R.id.tosum);
@@ -80,6 +88,24 @@ TextView ticketsSelection;
                     }
                 })
                 .show();
+
+        String re = email;
+        String[] r = re.split(",");
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, r);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "your movie appointment");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "name:"+movienameorder.getText().toString()+", time:"+movietimeorder.getText().toString()+", hall and seating:"+hallandseatingorder+", total payment"+totalpaymentorder);
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Choose an email client"));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getApplicationContext(), "There is no email client installed", Toast.LENGTH_LONG).show();
+        }
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(phoneNumber, null, "name:"+movienameorder.getText().toString()+", time:"+movietimeorder.getText().toString()+", hall and seating:"+hallandseatingorder+", total payment"+totalpaymentorder, null, null);
     }
 
     public void Click3(View v) {

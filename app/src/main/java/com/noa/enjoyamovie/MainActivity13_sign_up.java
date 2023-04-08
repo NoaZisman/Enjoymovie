@@ -14,20 +14,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity13_sign_up extends AppCompatActivity {
     TextView title;
     EditText username;
     EditText password;
     EditText id;
-    EditText gmail;
     Button letsgo;
     Button back;
     Button play;
     Button stop;
     TextView playtv;
     TextView stoptv;
+    FirebaseDatabase firebaseDatabase;
     AlertDialog.Builder builder;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +47,12 @@ public class MainActivity13_sign_up extends AppCompatActivity {
         filter = new IntentFilter("android.intent.action.PHONE_STATE");
         registerReceiver(myReceiver, filter);
         builder = new AlertDialog.Builder(this);
+        firebaseDatabase=FirebaseDatabase.getInstance();
+        databaseReference=firebaseDatabase.getReference();
         title = (TextView) findViewById(R.id.title);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         id = (EditText) findViewById(R.id.id);
-        gmail = (EditText) findViewById(R.id.gmail);
         letsgo = (Button) findViewById(R.id.letsgo);
         back = (Button) findViewById(R.id.back);
         playtv = (TextView) findViewById(R.id.playtv);
@@ -66,16 +72,23 @@ public class MainActivity13_sign_up extends AppCompatActivity {
     }
 
     public void Click2(View v) {
-       // if (!username.equals("") && !password.getText().toString().equals("")) {
-        //    if (checkUserName(username.getText().toString()) && checkPassword(password.getText().toString())) {
+        if (!username.getText().toString().equals("") && !password.getText().toString().equals("") && !id.getText().toString().equals("")) {
+            if (checkUserName(username.getText().toString()) && checkPassword(password.getText().toString()) && checkId(id.getText().toString())) {
+                username.setText("");
+                password.setText("");
+                id.setText("");
+                Toast.makeText(getApplicationContext(),"hello "+username,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, MainActivity4_movies.class);
                 startActivity(intent);
                 finish();
-          //  }
-       // }
+            }
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"please fill all the fields",Toast.LENGTH_LONG).show();
+        }
     }
 
-    /*public Boolean checkUserName(String username) {
+    public Boolean checkUserName(String username) {
         if (!username.equals("")) {
             if (username.length() < 3 || username.length() > 10) return false;
             int i = 0;
@@ -115,13 +128,12 @@ public class MainActivity13_sign_up extends AppCompatActivity {
         }
         return false;
     }
-    // public Boolean checkId(String id) {
-    //    if(id.length()<9 && id.length()>0)
+     public Boolean checkId(String id) {
+        if(id.length()<9 && id.length()>0)
+          return true;
+        return false;
+     }
 
-
-    //  return false;
-    // }
-*/
     public void Click3(View v) {
         builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
         {
