@@ -45,6 +45,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <Button
+            android:id="@+id/back"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:layout_marginLeft="5dp"
+            android:backgroundTint="#2A3361"
+            android:drawableRight="@drawable/button_back" />
 
         <Button
             android:id="@+id/stop"
@@ -53,9 +63,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:gravity="right"
-            android:layout_marginLeft="275dp"
+            android:layout_marginLeft="213dp"
             android:backgroundTint="#2A3361"
             android:drawableRight="@drawable/stop_music" />
+
         <Button
             android:id="@+id/play"
             android:layout_width="0dp"
@@ -74,25 +85,16 @@
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
         android:fontFamily="@font/sofia"
-        android:text="Leaderboard"
+        android:text="Movies for kids"
         android:textColor="#9FA6C8"
         android:textSize="50sp" />
 
-    <TextView
-        android:id="@+id/titletwo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:fontFamily="sans-serif-condensed"
-        android:text="movies for kids:"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp" />
 
     <ListView
         android:id="@+id/listViewtree"
         android:layout_width="match_parent"
         android:background="#2A3361"
         android:layout_height="match_parent"/>
+
 
 </LinearLayout>

@@ -28,18 +28,12 @@ public class MainActivity11_sumorder extends AppCompatActivity {
     TextView stoptv;
     Button tohomescreen;
     AlertDialog.Builder builder;
+    private SensorLightHandler mSensorLightHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main11_sumorder);
-        IncomingCall_Reciver myReceiver;
-        IntentFilter filter;
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},1);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_SMS},1);
-        myReceiver=new IncomingCall_Reciver();
-        filter=new IntentFilter("android.intent.action.PHONE_STATE");
-        registerReceiver(myReceiver,filter);
+
         builder=new AlertDialog.Builder(this);
         title = (TextView) findViewById(R.id.title);
         ticketsSelection = (TextView) findViewById(R.id.ticketsSelection);
@@ -60,19 +54,37 @@ public class MainActivity11_sumorder extends AppCompatActivity {
     }
 
     public void Click1(View v) {
-        Toast.makeText(getApplicationContext(),"closing app",Toast.LENGTH_LONG).show();
-        Intent music=new Intent(getApplicationContext(),MyService.class);
-        stopService(music);
-        finishAndRemoveTask();
-        finishAffinity();
+        //הפעולה מציגה אלרט דיילוג ששואל האם המשתמש רוצה לסגור את האפליקציה, במידה וכן הפעולה סוגרת את האפליקציה
+        builder.setTitle("Alert").setMessage("Do you want to close the app").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int i)
+            {
+                Toast.makeText(getApplicationContext(),"closing app",Toast.LENGTH_LONG).show();
+                Intent music=new Intent(getApplicationContext(),MyService.class);
+                stopService(music);
+                finishAndRemoveTask();
+                finishAffinity();
+            }
+        })
+                .setNegativeButton("no", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
     public void Click2(View v) {
+        //הפעולה מעבירה את המשתמש למסך הראשי עם הסרטים
         finish();
         Intent intent = new Intent(this, MainActivity4_movies.class);
         startActivity(intent);
 
     }
     public void Click3(View v) {
+        //שואל את המשתמש אם הוא רוצה לנגן מוזיקת רקע, במידה וכן הפעולה הולכת למחלקת הסרוויס ומתחילה לנגן
         builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
         {
             @Override
@@ -93,7 +105,22 @@ public class MainActivity11_sumorder extends AppCompatActivity {
     }
 
     public void Click4(View v) {
+        // במידה והמשתמש רוצה לעצור את המוזיקה הפעולה הולכת למחלקת הסרוויס ועוצרת את המוזיקה
         Intent music=new Intent(getApplicationContext(),MyService.class);
         stopService(music);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorLightHandler = new SensorLightHandler(this);
+        mSensorLightHandler.register();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorLightHandler.unregister();
     }
 }

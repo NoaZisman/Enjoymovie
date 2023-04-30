@@ -155,6 +155,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_gravity="left"
         android:fontFamily="sans-serif-condensed"
         android:text="- The order cannot be canceled once it has been confirmed"
@@ -167,6 +168,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_gravity="left"
         android:fontFamily="sans-serif-condensed"
         android:text="- Please do not sit in different places than the places you booked"
@@ -246,38 +248,20 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:orientation="horizontal">
 
         <Button
             android:id="@+id/todetails"
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="60dp"
             android:layout_marginRight="20dp"
             android:backgroundTint="#E68A01"
             android:text="continue"
             android:fontFamily="sans-serif-condensed"
             android:textColor="#000000"
             android:textSize="20sp" />
-        <Button
-            android:id="@+id/back"
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="25dp"
-            android:backgroundTint="#FFFFFF"
-            android:text="back"
-            android:fontFamily="sans-serif-condensed"
-            android:textColor="#000000"
-            android:textSize="20sp" />
 
-    </LinearLayout>
+
 </LinearLayout>

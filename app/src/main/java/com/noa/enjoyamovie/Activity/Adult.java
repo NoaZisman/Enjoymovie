@@ -3,22 +3,22 @@ package com.noa.enjoyamovie.Activity;
 import com.noa.enjoyamovie.Movie.Movie;
 
 public class Adult extends Movie {
-    private String adultContentOnly;
+    private String typeMovie;
 
-    public Adult(String name, String yearOfPublication, String director, String presentsIn, String url, String adultContentOnly, String summary) {
+    public Adult(String name, String yearOfPublication, String director, String presentsIn, String url, String summary, String typeMovie) {
         super(name, yearOfPublication, director, presentsIn, url, summary);
-        this.adultContentOnly = adultContentOnly;
+        this.typeMovie = typeMovie;
     }
-    public String getAdultContentOnly() {
-        return adultContentOnly;
+    public String getTypeMovie() {
+        return typeMovie;
     }
-    public void setAdultContentOnly(String adultContentOnly) {
-        this.adultContentOnly = adultContentOnly;
+    public void setTypeMovie(String typeMovie) {
+        this.typeMovie = typeMovie;
     }
 
     @Override
     public String toString()
     {
-        return super.toString() + " ,adult content only:" + this.adultContentOnly;
+        return super.toString() + " ,movie type:" + this.typeMovie;
     }
 }

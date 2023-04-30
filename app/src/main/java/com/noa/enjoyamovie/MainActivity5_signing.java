@@ -1,6 +1,5 @@
 package com.noa.enjoyamovie;
 import androidx.appcompat.app.AlertDialog;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -17,6 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 public class MainActivity5_signing extends AppCompatActivity {
 Button signin;
 Button signup;
@@ -25,18 +26,12 @@ AlertDialog.Builder builder;
     Button stop;
     TextView playtv;
     TextView stoptv;
+    private SensorLightHandler mSensorLightHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main5_signing);
-        IncomingCall_Reciver myReceiver;
-        IntentFilter filter;
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},1);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_SMS},1);
-        myReceiver=new IncomingCall_Reciver();
-        filter=new IntentFilter("android.intent.action.PHONE_STATE");
-        registerReceiver(myReceiver,filter);
+
         signin = (Button) findViewById(R.id.signin);
         signup = (Button) findViewById(R.id.signup);
         playtv = (TextView) findViewById(R.id.playtv);
@@ -61,6 +56,7 @@ AlertDialog.Builder builder;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
+        // תפריט של יציאה מהאפליקציה שמציג אלרט דיילוג ששואל האם המשתמש רוצה לסגור את האפליקציה, במידה וכן הפעולה סוגרת את האפליקציה
         switch(item.getItemId())
         {
             case R.id.item1:
@@ -86,33 +82,26 @@ AlertDialog.Builder builder;
                         .show();
 
                 return true;
-            case R.id.item2:
-                finish();
-                Intent intent = new Intent(this, MainActivity7_aboutcreator.class);
-                startActivity(intent);
-                return true;
-            case R.id.item3:
-                finish();
-                intent = new Intent(this, MainActivity6_aboutproject.class);
-                startActivity(intent);
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void Click1(View v) {
+        //הפעולה מעבירה את המשתמש למסך ההתחברות
         finish();
         Intent intent = new Intent(this, MainActivity12_sign_in.class);
         startActivity(intent);
     }
 
     public void Click2(View v) {
+        //הפעולה מעבירה את המשתמש למסך ההרשמה
         finish();
         Intent intent = new Intent(this, MainActivity13_sign_up.class);
         startActivity(intent);
     }
 
     public void Click3(View v) {
+        //שואל את המשתמש אם הוא רוצה לנגן מוזיקת רקע, במידה וכן הפעולה הולכת למחלקת הסרוויס ומתחילה לנגן
         builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
         {
             @Override
@@ -133,7 +122,22 @@ AlertDialog.Builder builder;
     }
 
     public void Click4(View v) {
+        // במידה והמשתמש רוצה לעצור את המוזיקה הפעולה הולכת למחלקת הסרוויס ועוצרת את המוזיקה
         Intent music=new Intent(getApplicationContext(),MyService.class);
         stopService(music);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorLightHandler = new SensorLightHandler(this);
+        mSensorLightHandler.register();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorLightHandler.unregister();
     }
 }

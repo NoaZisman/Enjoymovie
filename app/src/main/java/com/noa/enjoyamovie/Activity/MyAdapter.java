@@ -42,6 +42,7 @@ public class MyAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        //הפעולה מכניסה את הנתונים לשדות התמאימים לפי הסרט שנבחר (נלחץ)
         view = inflater.inflate(R.layout.movie_layout,null);
         TextView name1 = view.findViewById(R.id.MovieName);
         ImageView image1= view.findViewById(R.id.imageview);

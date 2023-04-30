@@ -131,77 +131,89 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:fontFamily="sans-serif-condensed"
         android:text="Order details"
         android:textColor="#000000"
         android:textSize="30sp" />
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <TextView
         android:id="@+id/movienameorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
         android:layout_gravity="left"
         android:gravity="center"
         android:fontFamily="sans-serif-condensed"
         android:text=""
         android:textColor="#000000"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
     <TextView
         android:id="@+id/movietimeorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_gravity="left"
         android:gravity="center"
         android:fontFamily="sans-serif-condensed"
         android:text=""
         android:textColor="#000000"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
+
     <TextView
         android:id="@+id/hallandseatingorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_gravity="left"
         android:gravity="center"
         android:fontFamily="sans-serif-condensed"
         android:text=""
         android:textColor="#000000"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
     <TextView
         android:id="@+id/totalpaymentorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_gravity="left"
         android:gravity="center"
         android:fontFamily="sans-serif-condensed"
         android:text=""
         android:textColor="#000000"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/cashorcardorder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_gravity="left"
         android:gravity="center"
         android:fontFamily="sans-serif-condensed"
         android:text=""
         android:textColor="#000000"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
 
         <Button
             android:id="@+id/tosum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"
             android:backgroundTint="#E68A01"
@@ -209,5 +221,6 @@
             android:fontFamily="sans-serif-condensed"
             android:textColor="#000000"
             android:textSize="20sp" />
-
+    </LinearLayout>
+</ScrollView>
 </LinearLayout>

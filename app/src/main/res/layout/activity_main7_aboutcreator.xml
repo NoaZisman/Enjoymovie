@@ -18,7 +18,7 @@
         android:fontFamily="@font/sofia"
         android:text="About the creator"
         android:textColor="#FFFFFF"
-        android:textSize="50sp" />
+        android:textSize="40sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="7dp"
+        android:layout_marginLeft="10dp"
         android:fontFamily="sans-serif-condensed"
         android:text="Id - 327569661"
         android:textColor="#FFFFFF"
@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="7dp"
+        android:layout_marginLeft="10dp"
         android:fontFamily="sans-serif-condensed"
         android:text="Name - Noa Zisman"
         android:textColor="#FFFFFF"
@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="7dp"
+        android:layout_marginLeft="10dp"
         android:fontFamily="sans-serif-condensed"
         android:text="Teacher's name - Eli Sinianski"
         android:textColor="#FFFFFF"
@@ -121,9 +121,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="7dp"
+        android:layout_marginLeft="10dp"
         android:fontFamily="sans-serif-condensed"
         android:text="Date - 1.5.2023"
         android:textColor="#FFFFFF"
         android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#2A3361"
+        android:drawableRight="@drawable/button_back"
+        android:gravity="center" />
 </LinearLayout>

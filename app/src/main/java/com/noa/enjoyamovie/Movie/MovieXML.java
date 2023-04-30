@@ -17,7 +17,6 @@ public class MovieXML {
         this.time = time;
     }
 
-    //region getters with setters
     public String getName() {
         return name;
     }

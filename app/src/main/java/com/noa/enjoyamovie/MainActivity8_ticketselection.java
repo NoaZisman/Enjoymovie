@@ -33,26 +33,28 @@ public class MainActivity8_ticketselection extends AppCompatActivity {
     TextView price;
     TextView amount;
     Button todetails;
-    Button back;
     Button play;
     Button stop;
     TextView playtv;
     TextView stoptv;
     Intent intentg;
     int i;
+    Intent intent2;
+    String time;
+    String date;
+    String MovieName;
+    String username;
+    String password;
+    String id;
+    int chosed;
+    int sumMoney;
+    private SensorLightHandler mSensorLightHandler;
     //לקבל גם את השעה מבין 3 שעות אפשריות, מספר האולם, מספר הכיסאות, מספר שורת ישיבה
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main8_ticketselection);
-        IncomingCall_Reciver myReceiver;
-        IntentFilter filter;
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},1);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_SMS},1);
-        myReceiver=new IncomingCall_Reciver();
-        filter=new IntentFilter("android.intent.action.PHONE_STATE");
-        registerReceiver(myReceiver,filter);
+
         builder=new AlertDialog.Builder(this);
         intentg=getIntent();
         i= intentg.getIntExtra("id",0);
@@ -70,29 +72,59 @@ public class MainActivity8_ticketselection extends AppCompatActivity {
         price = (TextView) findViewById(R.id.price);
         amount = (TextView) findViewById(R.id.amount);
         todetails = (Button) findViewById(R.id.todetails);
-        back = (Button) findViewById(R.id.back);
         playtv = (TextView) findViewById(R.id.playtv);
         stoptv = (TextView) findViewById(R.id.stoptv);
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
-        back.setOnClickListener(this::Click1);
         todetails.setOnClickListener(this::Click2);
         play.setOnClickListener(this::Click3);
         stop.setOnClickListener(this::Click4);
+        chosed=Integer.parseInt(intentg.getStringExtra("amount" ));
+        for(int i =0;i<chosed;i++){
+            places+=intentg.getStringExtra("seat"+i);
+
+        }
+        amount.setText(""+chosed);
+        sumMoney=chosed*47;
     }
 
-    public void Click1(View v) {
-        finish();
 
-    }
+
+
+
+    //shuka : (int)num/4 seat : num%4;
+    String places="";
+
+
+
+
+
     public void Click2(View v) {
+        //הפעולה מעבירה נתונים ואת המשתמש למסך התשלום
+        intent2 = getIntent();
+        time= intent2.getStringExtra("time");
+        date= intent2.getStringExtra("date");
+        MovieName = intent2.getStringExtra("name");
+        username= intent2.getStringExtra("username");
+        password= intent2.getStringExtra("password");
+        id = intent2.getStringExtra("iduser");
         finish();
         Intent intent = new Intent(this, MainActivity9_paymentdetails.class);
+        intent.putExtra("time",time);
+        intent.putExtra("date",date);
+        intent.putExtra("name",MovieName);
+        intent.putExtra("username",username);
+        intent.putExtra("password",password);
+        intent.putExtra("iduser",id);
+        intent.putExtra("seats",places);
+        intent.putExtra("amount",""+chosed);
+        intent.putExtra("sum",""+sumMoney);
         startActivity(intent);
 
     }
 
     public void Click3(View v) {
+        //שואל את המשתמש אם הוא רוצה לנגן מוזיקת רקע, במידה וכן הפעולה הולכת למחלקת הסרוויס ומתחילה לנגן
         builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
         {
             @Override
@@ -113,7 +145,21 @@ public class MainActivity8_ticketselection extends AppCompatActivity {
     }
 
     public void Click4(View v) {
+        // במידה והמשתמש רוצה לעצור את המוזיקה הפעולה הולכת למחלקת הסרוויס ועוצרת את המוזיקה
         Intent music=new Intent(getApplicationContext(),MyService.class);
         stopService(music);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorLightHandler = new SensorLightHandler(this);
+        mSensorLightHandler.register();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorLightHandler.unregister();
     }
 }

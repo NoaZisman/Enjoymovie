@@ -24,6 +24,7 @@ import com.noa.enjoyamovie.IncomingCall_Reciver;
 import com.noa.enjoyamovie.MainActivity8_ticketselection;
 import com.noa.enjoyamovie.MyService;
 import com.noa.enjoyamovie.R;
+import com.noa.enjoyamovie.SensorLightHandler;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -83,6 +84,11 @@ public class MainActivity2_seatselection extends AppCompatActivity {
     ImageView orange;
     Intent intentg;
     String MovieName;
+    Intent intent2;
+    String username;
+    String password;
+    String id;
+    private SensorLightHandler mSensorLightHandler;
     int i;
     boolean[][] flag = new  boolean[4][7];
     public int[][] seats = new int[4][7];
@@ -90,14 +96,6 @@ public class MainActivity2_seatselection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2_seatselection);
-        IncomingCall_Reciver myReceiver;
-        IntentFilter filter;
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},1);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_SMS},1);
-        myReceiver=new IncomingCall_Reciver();
-        filter=new IntentFilter("android.intent.action.PHONE_STATE");
-        registerReceiver(myReceiver,filter);
         intentg=getIntent();
         i= intentg.getIntExtra("id",0);
         //לקבל גם את השעה מבין 3 שעות אפשריות, מספר האולם
@@ -161,7 +159,6 @@ public class MainActivity2_seatselection extends AppCompatActivity {
         time= intent.getStringExtra("time");
         date= intent.getStringExtra("date");
         String name = intent.getStringExtra("name");
-
         MovieName = name;
         Read2dArray(name);
 
@@ -179,13 +176,17 @@ public class MainActivity2_seatselection extends AppCompatActivity {
         }
         return arrayList;
     }
+
+    
     public void Save2dArray(int[][] seats,String name) {
+        //הפעולה שומרת את הכיסאות, התאריך והשעה לפיירבייס
         Firebase firebase = new Firebase();
         firebase.saveIntList(convertIntArrayToArrayList(seats),MovieName,date+"/"+time);
     }
 
-
+    // coverts list to int array
     public static int[][] convertArrayListToIntArray(List<List<Integer>> arrayList) {
+        //הפעולה הופכת רשימה דו מימדית למערך דו מימדי
         int numRows = arrayList.size();
         if(numRows == 0){
             return new int[4][7];
@@ -201,6 +202,9 @@ public class MainActivity2_seatselection extends AppCompatActivity {
         return intArray;
     }
 
+    ArrayList<Integer> choosen = new ArrayList<Integer>();
+    int chosed = 0;
+
     public void Read2dArray(String name)  {
         Firebase firebase = new Firebase();
         firebase.readIntList(new Firebase.OnDataLoadedListener() {
@@ -213,7 +217,9 @@ public class MainActivity2_seatselection extends AppCompatActivity {
                     for(j=0;j<7;j++){
                         int id = res.getIdentifier("bt"+(i*7+j+1), "id", getApplicationContext().getPackageName());
                         if (seats[i][j] == 1){
+                            //אפור
                             ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 128, 124, 124)));
+                            ((Button)findViewById(id)).setClickable(false);
                         }
                         else{
                             int finalJ = j;
@@ -223,11 +229,18 @@ public class MainActivity2_seatselection extends AppCompatActivity {
                                 public void onClick(View view) {
                                     if (!flag[finalI][finalJ]) {
                                         flag[finalI][finalJ]=true;
+                                        chosed++;
+                                        choosen.add(finalI*7+finalJ);
                                         seats[finalI][finalJ] = 1;
+                                        //כתום
                                         ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 255, 152, 0)));
                                     }else{
                                         flag[finalI][finalJ]=false;
-                                        seats[finalI][finalJ] = 1;
+                                        int a = choosen.indexOf(finalI*7+finalJ);
+                                        choosen.remove(a);
+                                        chosed--;
+                                        seats[finalI][finalJ] = 0;
+                                        //ירוק
                                         ((Button)findViewById(id)).setBackgroundTintList(ColorStateList.valueOf(Color.argb(255, 109, 200, 113)));
                                     }
 
@@ -244,21 +257,60 @@ public class MainActivity2_seatselection extends AppCompatActivity {
 
 
 
-
-
     public void Click1(View v) {
+        //הפעולה מעבירה את המשתמש למסך עם המידע על סרט ספציפי
+
         finish();
         Intent intent = new Intent(this, MainActivity3_moviedetails.class);
         startActivity(intent);
     }
     public void Click2(View v) {
-        Intent intent = new Intent(this, MainActivity8_ticketselection.class);
-        Save2dArray(seats,MovieName);
-        intent.putExtra("id", i);
-        startActivity(intent);
+        //שומר את הכיסאות בפיירבייס ומעביר את המשתמש למסך מידע על הכרטיסים
+        builder.setTitle("Alert").setMessage("Are you sure you want to continue? the seats will be saved right after you hit the button 'yes' and you will not be able to return ").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int i)
+            {
+                intent2 = getIntent();
+                username= intent2.getStringExtra("username");
+                password= intent2.getStringExtra("password");
+                id = intent2.getStringExtra("iduser");
+                Intent intent = new Intent(getApplicationContext(), MainActivity8_ticketselection.class);
+                Save2dArray(seats,MovieName);
+                time= intent2.getStringExtra("time");
+                date= intent2.getStringExtra("date");
+                MovieName= intent2.getStringExtra("name");
+                intent.putExtra("id", i);
+                intent.putExtra("time",time);
+                intent.putExtra("date",date);
+                intent.putExtra("name",MovieName);
+                intent.putExtra("username",username);
+                intent.putExtra("password",password);
+                intent.putExtra("iduser",id);
+
+
+                for (int j = 0; j < choosen.size(); j++) {
+                    int row = choosen.get(j)/7 + 1;
+                    int column = choosen.get(j)%7 +1;
+                   intent.putExtra("seat"+j,"\nRow: "+row+"  Seat: "+column);
+                }
+                intent.putExtra("amount",""+chosed);
+                finish();
+                startActivity(intent);
+            }
+        })
+                .setNegativeButton("no", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 
     public void Click3(View v) {
+        //שואל את המשתמש אם הוא רוצה לנגן מוזיקת רקע, במידה וכן הפעולה הולכת למחלקת הסרוויס ומתחילה לנגן
         builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
         {
             @Override
@@ -279,7 +331,22 @@ public class MainActivity2_seatselection extends AppCompatActivity {
     }
 
     public void Click4(View v) {
+        // במידה והמשתמש רוצה לעצור את המוזיקה הפעולה הולכת למחלקת הסרוויס ועוצרת את המוזיקה
         Intent music=new Intent(getApplicationContext(),MyService.class);
         stopService(music);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorLightHandler = new SensorLightHandler(this);
+        mSensorLightHandler.register();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorLightHandler.unregister();
     }
 }

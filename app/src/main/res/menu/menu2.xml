@@ -19,10 +19,6 @@
         android:orderInCategory="200"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/item4"
-        android:title="leaderboard"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
+
 
 </menu>

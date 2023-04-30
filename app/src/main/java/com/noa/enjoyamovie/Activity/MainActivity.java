@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,14 +24,17 @@ import com.noa.enjoyamovie.MainActivity5_signing;
 import com.noa.enjoyamovie.MainActivity6_aboutproject;
 import com.noa.enjoyamovie.MainActivity7_aboutcreator;
 import com.noa.enjoyamovie.R;
+import com.noa.enjoyamovie.SensorLightHandler;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class MainActivity extends AppCompatActivity {
 Button gotoactivity4;
 TextView title;
+TextView warning;
 AlertDialog.Builder builder;
 LinearLayout title1;
+    private SensorLightHandler mSensorLightHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,14 +45,14 @@ LinearLayout title1;
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_SMS},1);
         myReceiver=new IncomingCall_Reciver();
-        filter=new IntentFilter("android.intent.action.PHONE_STATE");
+        filter=new IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
         registerReceiver(myReceiver,filter);
         title1 = (LinearLayout) findViewById(R.id.title1);
         title = (TextView) findViewById(R.id.title);
+        warning = (TextView) findViewById(R.id.warning);
         gotoactivity4 = (Button) findViewById(R.id.gotoactivity4);
         builder=new AlertDialog.Builder(this);
         gotoactivity4.setOnClickListener(this::Click1);
-
     }
 
     @Override
@@ -61,6 +66,7 @@ LinearLayout title1;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
+        //תפריט של יציאה מהאפליקציה
         switch(item.getItemId())
         {
             case R.id.item1:
@@ -70,6 +76,7 @@ LinearLayout title1;
                     public void onClick(DialogInterface dialog, int i)
                     {
                         Toast.makeText(getApplicationContext(),"closing app",Toast.LENGTH_LONG).show();
+                        finishAndRemoveTask();
                         finishAffinity();
                     }
                 })
@@ -83,16 +90,6 @@ LinearLayout title1;
                         .show();
 
                 return true;
-            case R.id.item2:
-                finish();
-                Intent intent = new Intent(this, MainActivity7_aboutcreator.class);
-                startActivity(intent);
-                return true;
-            case R.id.item3:
-                finish();
-                intent = new Intent(this, MainActivity6_aboutproject.class);
-                startActivity(intent);
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -100,11 +97,24 @@ LinearLayout title1;
 
 
     public void Click1(View v) {
+        //הפעולה מעבירה למסך כניסה השני של התחברות או הרשמה
         finish();
         Intent intent = new Intent(this, MainActivity5_signing.class);
         startActivity(intent);
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorLightHandler = new SensorLightHandler(this);
+        mSensorLightHandler.register();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorLightHandler.unregister();
+    }
     
 }

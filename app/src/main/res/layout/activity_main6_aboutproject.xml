@@ -18,7 +18,7 @@
         android:fontFamily="@font/sofia"
         android:text="About the project"
         android:textColor="#FFFFFF"
-        android:textSize="50sp" />
+        android:textSize="40sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,10 +86,20 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:fontFamily="sans-serif-condensed"
         android:text="The purpuse of the application is to give people a tool that can help to pick a movie at the cinema. They can browse in the available movies or choose directly a movie that they are intrested  in and order tickets."
         android:textColor="#FFFFFF"
-        android:textSize="35sp" />
+        android:textSize="28sp" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#2A3361"
+        android:drawableRight="@drawable/button_back"
+        android:gravity="center" />
 </LinearLayout>

@@ -10,6 +10,7 @@ public class IncomingCall_Reciver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        //הפעולה מאזינה האם ישנה שיחה נכנסת וכאשר מזהה פעולה של התקשרות היא תשלח הודעה
         Bundle extras=intent.getExtras();
         if(extras!=null)
         {
@@ -21,9 +22,20 @@ public class IncomingCall_Reciver extends BroadcastReceiver {
                 {
                     SmsManager smsManager = SmsManager.getDefault();
                     smsManager.sendTextMessage(phoneNumber, null, "I will call you later", null, null);
+
+
                 }
             }
+            if(state.equals(TelephonyManager.EXTRA_STATE_RINGING))
+            {
+
+            }
         }
+
     }
 
+
+
 }
+
+

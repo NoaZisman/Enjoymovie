@@ -11,7 +11,7 @@ public class MyService extends Service {
     public MyService()
     {
     }
-    MediaPlayer player1;
+    private MediaPlayer player1;
 
 
     @Override
@@ -21,6 +21,7 @@ public class MyService extends Service {
     @SuppressLint("WrongConstant")
     public int onStartCommand(Intent intent,int flags, int startId)
     {
+        //הפעולה מפעילה את השיר בלופ
         if(player1==null) {
             player1 = MediaPlayer.create(this, R.raw.under_the_sea);
             player1.setVolume(0.2f, 0.2f);
@@ -32,6 +33,7 @@ public class MyService extends Service {
     }
     @Override
     public void onDestroy() {
+        //הפעולה עוצרת את השיר
         player1.stop();
         player1.release();
         player1=null;

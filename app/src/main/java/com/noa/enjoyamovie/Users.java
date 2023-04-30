@@ -10,9 +10,11 @@ public class Users {
         this.id=id;
         this.password=password;
     }
-    public String getName() {
-        return username;
+
+    public Users() {
     }
+
+    public String getUsername() { return username; }
     public String getId() {
         return id;
     }
@@ -20,8 +22,8 @@ public class Users {
         return password;
     }
 
-    public void setName(String name) {
-        this.username = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
     public void setId(String id) {
         this.id = id;

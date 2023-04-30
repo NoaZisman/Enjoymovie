@@ -29,10 +29,10 @@
         <service
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true"></service>
-        <activity
-            android:name=".MainActivity14_leaderboard"
-            android:exported="true" />
+            android:exported="true"
+            android:stopWithTask="true">
+        </service>
+
         <activity
             android:name=".MainActivity13_sign_up"
             android:exported="true" />

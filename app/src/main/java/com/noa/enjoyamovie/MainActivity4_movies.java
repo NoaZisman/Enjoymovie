@@ -47,18 +47,16 @@ public class MainActivity4_movies extends AppCompatActivity {
     Button stop;
     TextView playtv;
     TextView stoptv;
+    Intent intent2;
+    String username;
+    String password;
+    String id;
+    private SensorLightHandler mSensorLightHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main4_movies);
-        IncomingCall_Reciver myReceiver;
-        IntentFilter filter;
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},1);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_SMS},1);
-        myReceiver=new IncomingCall_Reciver();
-        filter=new IntentFilter("android.intent.action.PHONE_STATE");
-        registerReceiver(myReceiver,filter);
+
         builder = new AlertDialog.Builder(this);
         title1 = (LinearLayout) findViewById(R.id.title1);
         playtv = (TextView) findViewById(R.id.playtv);
@@ -67,9 +65,14 @@ public class MainActivity4_movies extends AppCompatActivity {
         stop = (Button) findViewById(R.id.stop);
         play.setOnClickListener(this::Click3);
         stop.setOnClickListener(this::Click4);
+        intent2 = getIntent();
+        username= intent2.getStringExtra("username");
+        password= intent2.getStringExtra("password");
+        id = intent2.getStringExtra("iduser");
         initData();
         initListView();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //הפעולה מאזינה ומעבירה את המשתמש למסך עם המידע על סרט ספציפי
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MovieXML v = movieList.get(i);
@@ -77,13 +80,21 @@ public class MainActivity4_movies extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MainActivity3_moviedetails.class);
                 intent.putExtra("id", i);
                 intent.putExtra("name",movieList.get(i).getName());
+                intent.putExtra("username",username);
+                intent.putExtra("password",password);
+                intent.putExtra("iduser",id);
                 startActivityForResult(intent, 1);
+                finish();
             }
         });
+
+
+
     }
     private void initData() {
+        //הפעולה מעבירה את הנתונים של הסרטים (נתונים שונים) לרשימה
         movieList = new ArrayList<>();
-        movieList.add(new MovieXML("Avatar", R.drawable.movie_image_avatar, "imdb - 7.9", "2D,3D", "192 min"));
+        movieList.add(new MovieXML("Avatar", R.drawable.movie_image_avatar, "imdb - 7.9", "2D", "192 min"));
         movieList.add(new MovieXML("My sweet monster", R.drawable.movie_image_mysweetmonster, "imdb - 4.9", "2D", "98 min"));
         movieList.add(new MovieXML("The menu", R.drawable.movie_image_themenu, "imdb - 7.3", "2D", "106 min"));
         movieList.add(new MovieXML("Shotgun wedding", R.drawable.movie_image_shotgunwedding, "imdb - 6.2", "2D", "102 min"));
@@ -91,9 +102,12 @@ public class MainActivity4_movies extends AppCompatActivity {
         movieList.add(new MovieXML("Puss in boots", R.drawable.movie_image_pussinboots, "imdb - 6.6", "2D", "97 min"));
         movieList.add(new MovieXML("Puss in boots 2", R.drawable.movie_image_pussinbootstwo, "imdb - 7.9", "2D", "100 min"));
         movieList.add(new MovieXML("Alvin and the chipmanks", R.drawable.movie_image_chipmanks, "imdb - 4.3", "2D", "87 min"));
+        movieList.add(new MovieXML("Cinderella", R.drawable.movie_image_cinderella, "imdb - 7.3", "2D", "74 min"));
+        movieList.add(new MovieXML("The little mermaid", R.drawable.movie_image_little_mermaid, "imdb - 7.6", "2D", "83 min"));
     }
 
     private void initListView() {
+        //הפעולה קוראת לאדפטר עם הרשימה של הסרטים
         listView = findViewById(R.id.listView);
         myAdapter = new MyAdapter(getApplicationContext(), movieList);
         listView.setAdapter(myAdapter);
@@ -111,6 +125,7 @@ public class MainActivity4_movies extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
+        //תפריט של יציאה מהאפליקציה/ מידע על האפליקציה/ אודות המתכנת
         switch(item.getItemId())
         {
             case R.id.item1:
@@ -146,16 +161,12 @@ public class MainActivity4_movies extends AppCompatActivity {
                 intent = new Intent(this, MainActivity6_aboutproject.class);
                 startActivity(intent);
                 return true;
-            case R.id.item4:
-                finish();
-                intent = new Intent(this, MainActivity14_leaderboard.class);
-                startActivity(intent);
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void Click3(View v) {
+        //שואל את המשתמש אם הוא רוצה לנגן מוזיקת רקע, במידה וכן הפעולה הולכת למחלקת הסרוויס ומתחילה לנגן
         builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
         {
             @Override
@@ -176,8 +187,23 @@ public class MainActivity4_movies extends AppCompatActivity {
     }
 
     public void Click4(View v) {
+        // במידה והמשתמש רוצה לעצור את המוזיקה הפעולה הולכת למחלקת הסרוויס ועוצרת את המוזיקה
         Intent music=new Intent(getApplicationContext(),MyService.class);
         stopService(music);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorLightHandler = new SensorLightHandler(this);
+        mSensorLightHandler.register();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorLightHandler.unregister();
+    }
 }

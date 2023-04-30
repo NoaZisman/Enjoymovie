@@ -77,13 +77,26 @@
         android:text="Sign Up"
         android:textColor="#9FA6C8"
         android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/ruleusername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="left"
+        android:fontFamily="sans-serif-condensed"
+        android:text="*  the username must contain from 3-10 letters without numbers"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="left"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:backgroundTint="#848AA8"
@@ -99,13 +112,26 @@
         android:textSize="30sp"
         android:text="" />
 
+    <TextView
+        android:id="@+id/rulepassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="left"
+        android:fontFamily="sans-serif-condensed"
+        android:text="*  the password must contain from 3-12 letters or numbers"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="left"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:backgroundTint="#848AA8"
@@ -121,13 +147,25 @@
         android:textSize="30sp"
         android:text="" />
 
+    <TextView
+        android:id="@+id/ruleid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="left"
+        android:fontFamily="sans-serif-condensed"
+        android:text="*  the id must contain 9 numbers"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
     <EditText
         android:id="@+id/id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="left"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:backgroundTint="#848AA8"
@@ -147,7 +185,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal">
 
         <Button

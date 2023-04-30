@@ -71,19 +71,32 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:fontFamily="@font/sofia"
         android:text="Sign In"
         android:textColor="#9FA6C8"
         android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/rule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="left"
+        android:fontFamily="sans-serif-condensed"
+        android:text="*  the username must contain from 3-10 letters without numbers"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="left"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:backgroundTint="#848AA8"
@@ -98,32 +111,12 @@
         android:textColorHint="#FFFFFF"
         android:textSize="30sp"
         android:text="" />
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="left"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:backgroundTint="#848AA8"
-        android:background="@drawable/costume_edittext"
-        android:drawableLeft="@drawable/edittext_lock"
-        android:drawablePadding="10dp"
-        android:fontFamily="sans-serif-condensed"
-        android:hint="password"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textSize="30sp"
-        android:text="" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="100dp"
         android:orientation="horizontal">
 
         <Button

@@ -20,18 +20,13 @@ public class MainActivity6_aboutproject extends AppCompatActivity {
     TextView title;
     AlertDialog.Builder builder;
     TextView abouttheprojecttv;
+    Button back;
+    private SensorLightHandler mSensorLightHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main6_aboutproject);
-        IncomingCall_Reciver myReceiver;
-        IntentFilter filter;
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},1);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_SMS},1);
-        myReceiver=new IncomingCall_Reciver();
-        filter=new IntentFilter("android.intent.action.PHONE_STATE");
-        registerReceiver(myReceiver,filter);
+
         playtv = (TextView) findViewById(R.id.playtv);
         abouttheprojecttv = (TextView) findViewById(R.id.abouttheprojecttv);
         builder = new AlertDialog.Builder(this);
@@ -39,10 +34,21 @@ public class MainActivity6_aboutproject extends AppCompatActivity {
         title = (TextView) findViewById(R.id.title);
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
+        back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(this::Click1);
         play.setOnClickListener(this::Click3);
         stop.setOnClickListener(this::Click4);
     }
+
+    public void Click1(View v)
+    {
+        //הפעולה מעבירה את המשתמש למסך הראשי עם הסרטים
+        finish();
+        Intent intent = new Intent(this, MainActivity4_movies.class);
+        startActivity(intent);
+    }
     public void Click3(View v) {
+        //שואל את המשתמש אם הוא רוצה לנגן מוזיקת רקע, במידה וכן הפעולה הולכת למחלקת הסרוויס ומתחילה לנגן
         builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
         {
             @Override
@@ -63,7 +69,22 @@ public class MainActivity6_aboutproject extends AppCompatActivity {
     }
 
     public void Click4(View v) {
+        // במידה והמשתמש רוצה לעצור את המוזיקה הפעולה הולכת למחלקת הסרוויס ועוצרת את המוזיקה
         Intent music=new Intent(getApplicationContext(),MyService.class);
         stopService(music);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorLightHandler = new SensorLightHandler(this);
+        mSensorLightHandler.register();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorLightHandler.unregister();
     }
 }

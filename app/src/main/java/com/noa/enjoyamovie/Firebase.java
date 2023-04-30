@@ -20,18 +20,10 @@ public class Firebase {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    public int[] flatten(int[][] arr){
-        int[] arr2 = new int[4*7];
-        for(int i =0;i<4;i++){
-            for(int j = 0;j<7;j++){
-                arr2[i*4+j] = arr[i][j];
-            }
-        }
-        return arr2;
-    }
 
 
     public void saveIntList(List<List<Integer>> intList, String childName,String date) {
+        //הפעולה הופכת רשימה דו מימדית למפה ושומרת את המפה בפיירבייס
         Map<String, Object> map = new HashMap<>();
         int i = 0;
         for (List<Integer> list : intList) {
@@ -47,10 +39,12 @@ public class Firebase {
     }
 
     public void  readIntList(OnDataLoadedListener listener,String childName,String date) {
+        //הפעולה נכנסת לפיירבייס ובודקת אם יש מידע על השם של הסרט ובתאריך של הסרט ואם המידע קיים היא בונה רשימה דו מימדית שבה היא שמה כל איבר ומחזירה את הרשימה
         List<List<Integer>> intList = new ArrayList<>();
         mDatabase.child(childName).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange( DataSnapshot dataSnapshot) {
+                //הפעולה קוראת את המידע מהפיירבייס
                 List<List<Integer>> arrayList = new ArrayList<>();
                 for (DataSnapshot rowSnapshot : dataSnapshot.getChildren()) {
                     List<Integer> rowList = new ArrayList<>();

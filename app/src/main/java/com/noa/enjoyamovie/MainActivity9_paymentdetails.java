@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.noa.enjoyamovie.Activity.MainActivity2_seatselection;
 
@@ -30,7 +31,6 @@ TextView ticketsSelection;
     TextView firstnamebuy;
     TextView asteriskoneTwo;
     TextView lastnamebuy;
-    TextView asteriskoneTree;
     TextView emailbuy;
     TextView asteriskoneFour;
     TextView phonenumberbuy;
@@ -40,8 +40,6 @@ TextView ticketsSelection;
     TextView asteriskoneSix;
     TextView cardnumberbuy;
     TextView asteriskoneSeven;
-    TextView cardvaliditybuy;
-    TextView asteriskoneEight;
     TextView threedigitsbuy;
     EditText firstnamebuyed;
     EditText lastnamebuyed;
@@ -58,18 +56,22 @@ TextView ticketsSelection;
     TextView playtv;
     TextView stoptv;
     AlertDialog.Builder builder;
+    Intent intent2;
+    String time;
+    String date;
+    String MovieName;
+    String username;
+    String password;
+    String id ;
+    int chosed ;
+    String places;
+    int sumMoney;
+    private SensorLightHandler mSensorLightHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main9_paymentdetails);
-        IncomingCall_Reciver myReceiver;
-        IntentFilter filter;
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},1);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_SMS},1);
-        myReceiver=new IncomingCall_Reciver();
-        filter=new IntentFilter("android.intent.action.PHONE_STATE");
-        registerReceiver(myReceiver,filter);
+
         builder=new AlertDialog.Builder(this);
         title = (TextView) findViewById(R.id.title);
         ticketsSelection = (TextView) findViewById(R.id.ticketsSelection);
@@ -80,7 +82,6 @@ TextView ticketsSelection;
         firstnamebuy = (TextView) findViewById(R.id.firstnamebuy);
         asteriskoneTwo = (TextView) findViewById(R.id.asteriskoneTwo);
         lastnamebuy = (TextView) findViewById(R.id.lastnamebuy);
-        asteriskoneTree = (TextView) findViewById(R.id.asteriskoneTree);
         emailbuy = (TextView) findViewById(R.id.emailbuy);
         asteriskoneFour = (TextView) findViewById(R.id.asteriskoneFour);
         phonenumberbuy = (TextView) findViewById(R.id.phonenumberbuy);
@@ -90,14 +91,11 @@ TextView ticketsSelection;
         asteriskoneSix = (TextView) findViewById(R.id.asteriskoneSix);
         cardnumberbuy = (TextView) findViewById(R.id.cardnumberbuy);
         asteriskoneSeven = (TextView) findViewById(R.id.asteriskoneSeven);
-        cardvaliditybuy = (TextView) findViewById(R.id.cardvaliditybuy);
-        asteriskoneEight = (TextView) findViewById(R.id.asteriskoneEight);
         threedigitsbuy = (TextView) findViewById(R.id.threedigitsbuy);
         firstnamebuyed = (EditText) findViewById(R.id.firstnamebuyed);
         lastnamebuyed = (EditText) findViewById(R.id.lastnamebuyed);
         emailbuyed = (EditText) findViewById(R.id.emailbuyed);
         threedigitsbuyed = (EditText) findViewById(R.id.threedigitsbuyed);
-        cardvaliditybuyed = (EditText) findViewById(R.id.cardvaliditybuyed);
         phonenumberbuyed = (EditText) findViewById(R.id.phonenumberbuyed);
         cardnumberbuyed = (EditText) findViewById(R.id.cardnumberbuyed);
         wayofpaymentbuyed = (Spinner) findViewById(R.id.wayofpaymentbuyed);
@@ -118,12 +116,16 @@ TextView ticketsSelection;
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        //הפעולה מאזינה לספינר ובמידה והמשתמש בחר לשלם במזומן היא לא מראה לו את השדות להזנת אשראי
         String cardOrCash=adapterView.getItemAtPosition(i).toString();
         if(cardOrCash.equals("cash"))
         {
             cardnumberbuyed.setVisibility(View.GONE);
-            cardvaliditybuyed.setVisibility(View.GONE);
             threedigitsbuyed.setVisibility(View.GONE);
+        }
+        else{
+            cardnumberbuyed.setVisibility(View.VISIBLE);
+            threedigitsbuyed.setVisibility(View.VISIBLE);
         }
     }
 
@@ -133,6 +135,7 @@ TextView ticketsSelection;
     }
 
     public void Click1(View v) {
+       //הפעולה מעבירה את המשתמש למסך מידע על הכרטיסים
         finish();
         Intent intent = new Intent(this, MainActivity8_ticketselection.class);
         startActivity(intent);
@@ -140,26 +143,92 @@ TextView ticketsSelection;
     }
 
     public void Click2(View v) {
-        if(firstnamebuyed.getText().toString().length()>2 && firstnamebuyed.getText().toString().length()<=10)
+        //הפעולה מעבירה נתונים ואת המשתמש למסך מידע על ההזמנה ולפני זה בודקת תקינות קלט
+        intent2 = getIntent();
+        time= intent2.getStringExtra("time");
+        date= intent2.getStringExtra("date");
+        MovieName = intent2.getStringExtra("name");
+        username= intent2.getStringExtra("username");
+        password= intent2.getStringExtra("password");
+        id = intent2.getStringExtra("iduser");
+        chosed=Integer.parseInt(intent2.getStringExtra("amount"));
+        places=intent2.getStringExtra("seats");
+        sumMoney=Integer.parseInt(intent2.getStringExtra("sum"));
+        if(firstnamebuyed.getText().toString().length()>=2 && firstnamebuyed.getText().toString().length()<=10)
         {
-            if(lastnamebuyed.getText().toString().length()>2 && firstnamebuyed.getText().toString().length()<=15)
+            if(lastnamebuyed.getText().toString().length()>=2 && firstnamebuyed.getText().toString().length()<=15)
             {
-                if(phonenumberbuyed.getText().toString().length()>0 && phonenumberbuyed.getText().toString().length()==10)
-                    //continue with cash or credit card and the rest
-                finish();
-                Intent intent = new Intent(this, MainActivity10_paymentapproval.class);
-                intent.putExtra("email",emailbuyed.getText().toString());
-                intent.putExtra("phonenumber",phonenumberbuyed.getText().toString());
-                startActivity(intent);
+                if( phonenumberbuyed.getText().toString().length()==10) {
+                    if (wayofpaymentbuyed.getSelectedItem().equals("card"))
+                    {
+                        if (cardnumberbuyed.getText().toString().length() >= 8 && cardnumberbuyed.getText().toString().length() <= 19)
+                        {
+                                if(threedigitsbuyed.getText().toString().length()==3)
+                                {
+                                    finish();
+                                    Intent intent = new Intent(this, MainActivity10_paymentapproval.class);
+                                    intent.putExtra("email", emailbuyed.getText().toString());
+                                    intent.putExtra("phonenumber", phonenumberbuyed.getText().toString());
+                                    intent.putExtra("time", time);
+                                    intent.putExtra("date", date);
+                                    intent.putExtra("name", MovieName);
+                                    intent.putExtra("pay", wayofpaymentbuyed.getSelectedItem().toString());
+                                    intent.putExtra("username", username);
+                                    intent.putExtra("password", password);
+                                    intent.putExtra("iduser", id);
+                                    intent.putExtra("seats", places);
+                                    intent.putExtra("amount", "" + chosed);
+                                    intent.putExtra("sum", "" + sumMoney);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(),"please enter 3 digits",Toast.LENGTH_SHORT).show();
+                                }
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"card number should be between 8-19 digits",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else{
+                        if (wayofpaymentbuyed.getSelectedItem().equals("cash")) {
+                            cardnumberbuyed.setVisibility(View.GONE);
+                            threedigitsbuyed.setVisibility(View.GONE);
+                            finish();
+                            Intent intent = new Intent(this, MainActivity10_paymentapproval.class);
+                            intent.putExtra("email", emailbuyed.getText().toString());
+                            intent.putExtra("phonenumber", phonenumberbuyed.getText().toString());
+                            intent.putExtra("time", time);
+                            intent.putExtra("date", date);
+                            intent.putExtra("name", MovieName);
+                            intent.putExtra("pay", wayofpaymentbuyed.getSelectedItem().toString());
+                            intent.putExtra("username", username);
+                            intent.putExtra("password", password);
+                            intent.putExtra("iduser", id);
+                            intent.putExtra("seats", places);
+                            intent.putExtra("amount", "" + chosed);
+                            intent.putExtra("sum", "" + sumMoney);
+                            startActivity(intent);
+                        }
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"phone number should be 10 digits",Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"last name should be between 2-15 letters",Toast.LENGTH_SHORT).show();
             }
 
         }
-
+        else{
+            Toast.makeText(getApplicationContext(),"first name should be between 2-10 letters",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
 
     public void Click3(View v) {
+        //שואל את המשתמש אם הוא רוצה לנגן מוזיקת רקע, במידה וכן הפעולה הולכת למחלקת הסרוויס ומתחילה לנגן
         builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
         {
             @Override
@@ -180,9 +249,23 @@ TextView ticketsSelection;
     }
 
     public void Click4(View v) {
+        // במידה והמשתמש רוצה לעצור את המוזיקה הפעולה הולכת למחלקת הסרוויס ועוצרת את המוזיקה
         Intent music=new Intent(getApplicationContext(),MyService.class);
         stopService(music);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorLightHandler = new SensorLightHandler(this);
+        mSensorLightHandler.register();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorLightHandler.unregister();
+    }
 
 }

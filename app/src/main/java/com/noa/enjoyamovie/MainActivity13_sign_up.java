@@ -16,11 +16,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class MainActivity13_sign_up extends AppCompatActivity {
     TextView title;
+    TextView ruleid;
+    TextView rulepassword;
+    TextView ruleusername;
     EditText username;
     EditText password;
     EditText id;
@@ -33,23 +43,18 @@ public class MainActivity13_sign_up extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     AlertDialog.Builder builder;
     DatabaseReference databaseReference;
+    private SensorLightHandler mSensorLightHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main13_sign_up);
-        IncomingCall_Reciver myReceiver;
-        IntentFilter filter;
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 1);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, 1);
-        myReceiver = new IncomingCall_Reciver();
-        filter = new IntentFilter("android.intent.action.PHONE_STATE");
-        registerReceiver(myReceiver, filter);
+
         builder = new AlertDialog.Builder(this);
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        databaseReference=firebaseDatabase.getReference();
         title = (TextView) findViewById(R.id.title);
+        ruleid = (TextView) findViewById(R.id.ruleid);
+        rulepassword = (TextView) findViewById(R.id.rulepassword);
+        ruleusername = (TextView) findViewById(R.id.ruleusername);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         id = (EditText) findViewById(R.id.id);
@@ -66,29 +71,68 @@ public class MainActivity13_sign_up extends AppCompatActivity {
     }
 
     public void Click1(View v) {
+        //הפעולה מעבירה למסך כניסה השני של התחברות או הרשמה
         Intent intent = new Intent(this, MainActivity5_signing.class);
         startActivity(intent);
         finish();
     }
 
     public void Click2(View v) {
-        if (!username.getText().toString().equals("") && !password.getText().toString().equals("") && !id.getText().toString().equals("")) {
-            if (checkUserName(username.getText().toString()) && checkPassword(password.getText().toString()) && checkId(id.getText().toString())) {
-                username.setText("");
-                password.setText("");
-                id.setText("");
-                Toast.makeText(getApplicationContext(),"hello "+username,Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(this, MainActivity4_movies.class);
-                startActivity(intent);
-                finish();
-            }
+        //הפעולה בודקת את תקינות הקלט, שומרת את נתוני המשתמש לפיירבייס ושולפת את נתוני המשתמש מהפיירבייס כדי לבדוק אם משתמש זה כבר קיים במערכת
+        databaseReference=FirebaseDatabase.getInstance().getReference("Users");
+        if(checkUserName(username.getText().toString()))
+        {
+            databaseReference.child(username.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().exists()) {
+                            Toast.makeText(MainActivity13_sign_up.this, "user already exists", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            if (!username.getText().toString().equals("") && !password.getText().toString().equals("") && !id.getText().toString().equals("")) {
+                                if (checkUserName(username.getText().toString()) && checkPassword(password.getText().toString()) && checkId(id.getText().toString())) {
+                                    Users users = new Users(username.getText().toString(), (password.getText().toString()), (id.getText().toString()));
+                                    databaseReference.child(username.getText().toString()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(Task<Void> task) {
+                                            Toast.makeText(getApplicationContext(),"hello "+username.getText().toString(),Toast.LENGTH_LONG).show();
+                                            username.setText("");
+                                            password.setText("");
+                                            id.setText("");
+                                            finish();
+                                            Intent intent = new Intent(getApplicationContext(), MainActivity4_movies.class);
+                                            intent.putExtra("username",username.getText().toString());
+                                            intent.putExtra("password",password.getText().toString());
+                                            intent.putExtra("iduser",id.getText().toString());
+                                            startActivity(intent);
+                                        }
+                                    });
+
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(),"make sure all the info is correct",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(),"please fill all the fields",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    } else {
+                        Toast.makeText(MainActivity13_sign_up.this, "failed to read", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
-        else {
-            Toast.makeText(getApplicationContext(),"please fill all the fields",Toast.LENGTH_LONG).show();
+        else
+        {
+            Toast.makeText(MainActivity13_sign_up.this, "make sure all the info is correct", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     public Boolean checkUserName(String username) {
+        //הפעולה בודקת את תקינות הקלט של השם משתמש
         if (!username.equals("")) {
             if (username.length() < 3 || username.length() > 10) return false;
             int i = 0;
@@ -105,6 +149,7 @@ public class MainActivity13_sign_up extends AppCompatActivity {
     }
 
     public Boolean checkPassword(String password) {
+        //הפעולה בודקת את תקינות הקלט של הססמא
         if (!password.equals("")) {
             if (password.length() < 3 || password.length() > 12)
                 return false;
@@ -126,15 +171,17 @@ public class MainActivity13_sign_up extends AppCompatActivity {
             }
             if (bigCnt > 0 && smallCnt > 0 && numCnt > 0) return true;
         }
-        return false;
+        return true;
     }
      public Boolean checkId(String id) {
-        if(id.length()<9 && id.length()>0)
+        //הפעולה בודקת את תקינות הקלט של התעודת זהות
+        if(id.length()==9 && id.length()>0)
           return true;
         return false;
      }
 
     public void Click3(View v) {
+        //שואל את המשתמש אם הוא רוצה לנגן מוזיקת רקע, במידה וכן הפעולה הולכת למחלקת הסרוויס ומתחילה לנגן
         builder.setTitle("Alert").setMessage("Do you want to play music").setCancelable(true).setPositiveButton("yes", new DialogInterface.OnClickListener()
         {
             @Override
@@ -155,7 +202,22 @@ public class MainActivity13_sign_up extends AppCompatActivity {
     }
 
     public void Click4(View v) {
+        // במידה והמשתמש רוצה לעצור את המוזיקה הפעולה הולכת למחלקת הסרוויס ועוצרת את המוזיקה
         Intent music=new Intent(getApplicationContext(),MyService.class);
         stopService(music);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorLightHandler = new SensorLightHandler(this);
+        mSensorLightHandler.register();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorLightHandler.unregister();
     }
 }
