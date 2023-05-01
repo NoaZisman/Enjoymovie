@@ -21,14 +21,8 @@ public class IncomingCall_Reciver extends BroadcastReceiver {
                 if(phoneNumber!=null)
                 {
                     SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phoneNumber, null, "I will call you later", null, null);
-
-
+                    smsManager.sendTextMessage(phoneNumber, null, "I am ordering movie tickets", null, null);
                 }
-            }
-            if(state.equals(TelephonyManager.EXTRA_STATE_RINGING))
-            {
-
             }
         }
 

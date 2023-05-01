@@ -102,25 +102,25 @@ TextView ticketsSelection;
         totalpaymentorder.setText("total sum: "+sumMoney);
         cashorcardorder.setText("way of payment: "+wayofpaymentbuyed);
         if (MovieName.equals("Avatar"))
-            hallandseatingorder.setText("hall: " + 1 + ", "+places);
+            hallandseatingorder.setText("hall: " + 1 + ""+places);
         if (MovieName.equals("My sweet monster"))
-            hallandseatingorder.setText("hall: " + 2 + ", "+places);
+            hallandseatingorder.setText("hall: " + 2 + ""+places);
         if (MovieName.equals("The menu"))
-            hallandseatingorder.setText("hall: " + 3 + ", "+places);
+            hallandseatingorder.setText("hall: " + 3 + ""+places);
         if (MovieName.equals("Shotgun wedding"))
-            hallandseatingorder.setText("hall: " + 4 + ", "+places);
+            hallandseatingorder.setText("hall: " + 4 + ""+places);
         if (MovieName.equals("Beautiful desaster"))
             hallandseatingorder.setText("hall: " + 5 + ", "+places);
         if (MovieName.equals("Puss in boots"))
-            hallandseatingorder.setText("hall: " + 6 + ", "+places);
+            hallandseatingorder.setText("hall: " + 6 + ""+places);
         if (MovieName.equals("Puss in boots 2"))
-            hallandseatingorder.setText("hall: " + 7 + ", "+places);
+            hallandseatingorder.setText("hall: " + 7 + ""+places);
         if (MovieName.equals("Alvin and the chipmanks"))
-            hallandseatingorder.setText("hall: " + 8 + ", "+places);
+            hallandseatingorder.setText("hall: " + 8 + ""+places);
         if (MovieName.equals("Cinderella"))
-            hallandseatingorder.setText("hall: " + 9 + ", "+places);
+            hallandseatingorder.setText("hall: " + 9 + ""+places);
         if (MovieName.equals("The little mermaid"))
-            hallandseatingorder.setText("hall: " + 10 + ", "+places);
+            hallandseatingorder.setText("hall: " + 10 + ""+places);
     }
     public void Click1(View v) {
         //הפעולה שולחת את הנתונים בהודעה ואימייל ואת המשתמש למסך הסיכום

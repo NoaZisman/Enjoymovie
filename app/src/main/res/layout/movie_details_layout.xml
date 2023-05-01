@@ -115,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="30dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.8"
                     android:drawSelectorOnTop="true"
                     android:entries="@array/Weight"
                     android:popupBackground="#000000"

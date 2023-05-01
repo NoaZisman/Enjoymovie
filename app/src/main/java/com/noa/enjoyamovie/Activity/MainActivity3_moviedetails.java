@@ -143,7 +143,6 @@ public class MainActivity3_moviedetails extends AppCompatActivity {
         password= intent2.getStringExtra("password");
         id = intent2.getStringExtra("iduser");
         Intent intent = new Intent(this, MainActivity2_seatselection.class);
-       // intent.putExtra("id", movieListDetails.get(i).getName());
         intent.putExtra("name",movieListDetails.get(i).getName());
 
         if(dateTxt == null || dateTxt.isEmpty()){
@@ -211,12 +210,13 @@ String dateTxt;
         {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
+
                 if((year>=year11 && month>=month1 && dayOfMonth>=day1) || (year>year11 && month<=month1 && dayOfMonth<=day1) || (year>year11 && month>=month1 && dayOfMonth<=day1) ||(year>year11 && month>=month1 && dayOfMonth>=day1)||(year>year11 && month<=month1 && dayOfMonth>=day1))
                 {
 
                     month = month + 1;
                     dateTxt = dayOfMonth + "/" + month + "/" + year;
-                    //Click2(v,date);
+
                 }
 
             }
@@ -230,7 +230,7 @@ String dateTxt;
 
     }
     public void Click6(View v) {
-
+//הפעולה מקבלת את הסטרינג של הקישור ליוטיוב מהמסך של הנתונים על סרט ספציפי ומעבירה אותו לפעולה שפותחת את הקישור
         intent=getIntent();
         i= intent.getIntExtra("id",0);
         gotoUrl(movieListDetails.get(i).getUrl());

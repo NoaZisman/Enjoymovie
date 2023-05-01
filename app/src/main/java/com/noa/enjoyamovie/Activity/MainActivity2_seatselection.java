@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.noa.enjoyamovie.Firebase;
@@ -149,6 +150,7 @@ public class MainActivity2_seatselection extends AppCompatActivity {
         stop.setOnClickListener(this::Click4);
 
         for (int i = 0; i < flag.length; i++) {
+            //הלולאה מאתחלת את המערך של הלחצנים של הכיסאות ל0
             for (int j = 0; j < flag[0].length; j++) {
                 flag[i][j]=false;
             }
@@ -166,6 +168,7 @@ public class MainActivity2_seatselection extends AppCompatActivity {
 
     String time,date;
     public static List<List<Integer>> convertIntArrayToArrayList(int[][] intArray) {
+        //הפעולה הופכת מערך לרשימה
         List<List<Integer>> arrayList = new ArrayList<>();
         for (int[] row : intArray) {
             List<Integer> rowList = new ArrayList<>();
@@ -206,6 +209,7 @@ public class MainActivity2_seatselection extends AppCompatActivity {
     int chosed = 0;
 
     public void Read2dArray(String name)  {
+        //הפעולה מקבלת את המערך הדו מימדי מהפיירבייס ומפעילה לולאה כדי לסגור את כל הלחצנים שטפוסים
         Firebase firebase = new Firebase();
         firebase.readIntList(new Firebase.OnDataLoadedListener() {
             @Override
@@ -271,32 +275,39 @@ public class MainActivity2_seatselection extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int i)
             {
-                intent2 = getIntent();
-                username= intent2.getStringExtra("username");
-                password= intent2.getStringExtra("password");
-                id = intent2.getStringExtra("iduser");
-                Intent intent = new Intent(getApplicationContext(), MainActivity8_ticketselection.class);
-                Save2dArray(seats,MovieName);
-                time= intent2.getStringExtra("time");
-                date= intent2.getStringExtra("date");
-                MovieName= intent2.getStringExtra("name");
-                intent.putExtra("id", i);
-                intent.putExtra("time",time);
-                intent.putExtra("date",date);
-                intent.putExtra("name",MovieName);
-                intent.putExtra("username",username);
-                intent.putExtra("password",password);
-                intent.putExtra("iduser",id);
+                if(chosed>0)
+                {
+                    intent2 = getIntent();
+                    username= intent2.getStringExtra("username");
+                    password= intent2.getStringExtra("password");
+                    id = intent2.getStringExtra("iduser");
+                    Intent intent = new Intent(getApplicationContext(), MainActivity8_ticketselection.class);
+                    Save2dArray(seats,MovieName);
+                    time= intent2.getStringExtra("time");
+                    date= intent2.getStringExtra("date");
+                    MovieName= intent2.getStringExtra("name");
+                    intent.putExtra("id", i);
+                    intent.putExtra("time",time);
+                    intent.putExtra("date",date);
+                    intent.putExtra("name",MovieName);
+                    intent.putExtra("username",username);
+                    intent.putExtra("password",password);
+                    intent.putExtra("iduser",id);
 
 
-                for (int j = 0; j < choosen.size(); j++) {
-                    int row = choosen.get(j)/7 + 1;
-                    int column = choosen.get(j)%7 +1;
-                   intent.putExtra("seat"+j,"\nRow: "+row+"  Seat: "+column);
+                    for (int j = 0; j < choosen.size(); j++) {
+                        int row = choosen.get(j)/7 + 1;
+                        int column = choosen.get(j)%7 +1;
+                        intent.putExtra("seat"+j,"\nRow: "+row+"  Seat: "+column);
+                    }
+                    intent.putExtra("amount",""+chosed);
+                    finish();
+                    startActivity(intent);
                 }
-                intent.putExtra("amount",""+chosed);
-                finish();
-                startActivity(intent);
+                else{
+                    Toast.makeText(getApplicationContext(),"choose seats",Toast.LENGTH_LONG).show();
+                }
+
             }
         })
                 .setNegativeButton("no", new DialogInterface.OnClickListener()

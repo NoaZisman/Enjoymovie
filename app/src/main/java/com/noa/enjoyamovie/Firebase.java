@@ -23,7 +23,7 @@ public class Firebase {
 
 
     public void saveIntList(List<List<Integer>> intList, String childName,String date) {
-        //הפעולה הופכת רשימה דו מימדית למפה ושומרת את המפה בפיירבייס
+        //הפעולה הופכת רשימה דו מימדית למפה ושומרת את המפה בפיירבייס יחד עם השם של הסרט והתאריך
         Map<String, Object> map = new HashMap<>();
         int i = 0;
         for (List<Integer> list : intList) {
