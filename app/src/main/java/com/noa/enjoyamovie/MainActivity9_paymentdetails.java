@@ -49,7 +49,6 @@ TextView ticketsSelection;
     EditText cardnumberbuyed;
     EditText cardvaliditybuyed;
     EditText threedigitsbuyed;
-    Button back;
     Button toapproval;
     Button play;
     Button stop;
@@ -107,8 +106,7 @@ TextView ticketsSelection;
         stoptv = (TextView) findViewById(R.id.stoptv);
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
-        back = (Button) findViewById(R.id.back);
-        back.setOnClickListener(this::Click1);
+
         toapproval.setOnClickListener(this::Click2);
         play.setOnClickListener(this::Click3);
         stop.setOnClickListener(this::Click4);
@@ -134,13 +132,7 @@ TextView ticketsSelection;
 
     }
 
-    public void Click1(View v) {
-       //הפעולה מעבירה את המשתמש למסך מידע על הכרטיסים
-        finish();
-        Intent intent = new Intent(this, MainActivity8_ticketselection.class);
-        startActivity(intent);
 
-    }
 
     public void Click2(View v) {
         //הפעולה מעבירה נתונים ואת המשתמש למסך מידע על ההזמנה ולפני זה בודקת תקינות קלט

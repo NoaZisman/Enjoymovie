@@ -63,8 +63,9 @@ public class MainActivity11_sumorder extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"closing app",Toast.LENGTH_LONG).show();
                 Intent music=new Intent(getApplicationContext(),MyService.class);
                 stopService(music);
-                finishAndRemoveTask();
                 finishAffinity();
+                finishAndRemoveTask();
+
             }
         })
                 .setNegativeButton("no", new DialogInterface.OnClickListener()
