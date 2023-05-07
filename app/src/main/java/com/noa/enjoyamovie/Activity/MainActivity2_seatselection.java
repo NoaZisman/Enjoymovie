@@ -264,9 +264,9 @@ public class MainActivity2_seatselection extends AppCompatActivity {
     public void Click1(View v) {
         //הפעולה מעבירה את המשתמש למסך עם המידע על סרט ספציפי
 
-        finish();
         Intent intent = new Intent(this, MainActivity3_moviedetails.class);
         startActivity(intent);
+        finish();
     }
     public void Click2(View v) {
         //שומר את הכיסאות בפיירבייס ומעביר את המשתמש למסך מידע על הכרטיסים
@@ -358,6 +358,8 @@ public class MainActivity2_seatselection extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
         mSensorLightHandler.unregister();
     }
 }

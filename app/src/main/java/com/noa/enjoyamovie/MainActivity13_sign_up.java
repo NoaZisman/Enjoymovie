@@ -218,6 +218,8 @@ public class MainActivity13_sign_up extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
         mSensorLightHandler.unregister();
     }
 }

@@ -172,6 +172,8 @@ databaseReference.child(username).get().addOnCompleteListener(new OnCompleteList
     @Override
     protected void onPause() {
         super.onPause();
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
         mSensorLightHandler.unregister();
     }
 }

@@ -254,6 +254,8 @@ String dateTxt;
     @Override
     protected void onPause() {
         super.onPause();
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
         mSensorLightHandler.unregister();
     }
 }

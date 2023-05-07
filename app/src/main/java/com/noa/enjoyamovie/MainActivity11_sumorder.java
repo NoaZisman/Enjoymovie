@@ -63,8 +63,8 @@ public class MainActivity11_sumorder extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"closing app",Toast.LENGTH_LONG).show();
                 Intent music=new Intent(getApplicationContext(),MyService.class);
                 stopService(music);
-                finishAffinity();
                 finishAndRemoveTask();
+                finishAffinity();
 
             }
         })
@@ -122,6 +122,8 @@ public class MainActivity11_sumorder extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
         mSensorLightHandler.unregister();
     }
 }

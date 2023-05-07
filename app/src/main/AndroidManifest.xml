@@ -30,7 +30,8 @@
             android:name=".MyService"
             android:enabled="true"
             android:exported="true"
-            android:stopWithTask="true">
+            android:stopWithTask="true"
+            >
         </service>
 
         <activity

@@ -92,7 +92,7 @@ public class MainActivity8_ticketselection extends AppCompatActivity {
 
 
 
-    //shuka : (int)num/4 seat : num%4;
+    //shura : (int)num/4 seat : num%4;
     String places="";
 
 
@@ -160,6 +160,8 @@ public class MainActivity8_ticketselection extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
         mSensorLightHandler.unregister();
     }
 }

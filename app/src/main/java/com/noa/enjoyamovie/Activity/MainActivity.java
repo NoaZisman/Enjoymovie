@@ -23,6 +23,7 @@ import com.noa.enjoyamovie.IncomingCall_Reciver;
 import com.noa.enjoyamovie.MainActivity5_signing;
 import com.noa.enjoyamovie.MainActivity6_aboutproject;
 import com.noa.enjoyamovie.MainActivity7_aboutcreator;
+import com.noa.enjoyamovie.MyService;
 import com.noa.enjoyamovie.R;
 import com.noa.enjoyamovie.SensorLightHandler;
 
@@ -98,9 +99,9 @@ LinearLayout title1;
 
     public void Click1(View v) {
         //הפעולה מעבירה למסך כניסה השני של התחברות או הרשמה
-        finish();
         Intent intent = new Intent(this, MainActivity5_signing.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -114,6 +115,8 @@ LinearLayout title1;
     @Override
     protected void onPause() {
         super.onPause();
+        Intent music=new Intent(getApplicationContext(), MyService.class);
+        stopService(music);
         mSensorLightHandler.unregister();
     }
     

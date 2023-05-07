@@ -204,6 +204,8 @@ public class MainActivity4_movies extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
         mSensorLightHandler.unregister();
     }
 }

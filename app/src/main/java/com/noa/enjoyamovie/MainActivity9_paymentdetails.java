@@ -106,7 +106,6 @@ TextView ticketsSelection;
         stoptv = (TextView) findViewById(R.id.stoptv);
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
-
         toapproval.setOnClickListener(this::Click2);
         play.setOnClickListener(this::Click3);
         stop.setOnClickListener(this::Click4);
@@ -257,6 +256,8 @@ TextView ticketsSelection;
     @Override
     protected void onPause() {
         super.onPause();
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
         mSensorLightHandler.unregister();
     }
 

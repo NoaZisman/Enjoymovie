@@ -152,9 +152,9 @@ TextView ticketsSelection;
                 ActivityCompat.requestPermissions(MainActivity10_paymentapproval.this, new String[]{Manifest.permission.SEND_SMS}, 1);
                 SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage(phoneNumber, null, "user "+orders.getUsername()+" thank you for ordering."+" movie name:"+MovieName+", time:"+orders.getMovieTime()+", date:"+orders.getMovieDate()+", "+places+", total payment:"+orders.getSumMoney(), null, null);
-                finish();
                 Intent intent = new Intent(getApplicationContext(), MainActivity11_sumorder.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -203,6 +203,8 @@ TextView ticketsSelection;
     @Override
     protected void onPause() {
         super.onPause();
+        Intent music=new Intent(getApplicationContext(),MyService.class);
+        stopService(music);
         mSensorLightHandler.unregister();
     }
 }
