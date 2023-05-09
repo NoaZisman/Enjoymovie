@@ -92,7 +92,7 @@ public class MainActivity13_sign_up extends AppCompatActivity {
 
                             if (!username.getText().toString().equals("") && !password.getText().toString().equals("") && !id.getText().toString().equals("")) {
                                 if (checkUserName(username.getText().toString()) && checkPassword(password.getText().toString()) && checkId(id.getText().toString())) {
-                                    Users users = new Users(username.getText().toString(), (password.getText().toString()), (id.getText().toString()));
+                                    Users users = new Users(username.getText().toString(), (id.getText().toString()),(password.getText().toString()));
                                     databaseReference.child(username.getText().toString()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(Task<Void> task) {

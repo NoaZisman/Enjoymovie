@@ -161,7 +161,6 @@ public class MainActivity3_moviedetails extends AppCompatActivity {
         intent.putExtra("password",password);
         intent.putExtra("iduser",id);
         finish();
-        //להעביר גם את השעה ותאריך מבין 3 שעות אפשריות, מספר האולם, מספר שורת ישיבה
         startActivity(intent);
 
     }
